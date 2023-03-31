@@ -1,0 +1,197 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\title[Var. Pers. HR-ODEs]
+{Variational Perspective on High-Resolution ODEs}
+
+\subtitle{Collaborative Meeting}
+
+\author[Hoomaan Maskan] % (optional, for multiple authors)
+{H.~Maskan\inst{1} \and A.~Yurtsever\inst{2} \and K.~Zygalakis\inst{3}}
+
+\institute[Umu] % (optional)
+{
+  \inst{1}%
+  Department of Mathematics \& Mathematical Statistics\\
+  Umeå University
+
+  \and
+  \inst{2}%
+Department of Mathematics \& Mathematical Statistics\\
+  Umeå University
+  
+  \and
+  \inst{3}%
+  School of Mathematics\\
+  Edinburgh University
+}
+
+%\date[NIPS 2023] % (optional)
+%{NIPS, May 2023}
+
+\logo{\includegraphics[height=0.8cm]{Meeting with Kostas/umu-logo-left-EN.eps}}
+
+\definecolor{Umupurple}{RGB}{30,41,88}
+\setbeamercolor{titlelike}{bg=Umupurple}
+\setbeamerfont{title}{series=\bfseries}
+
+\begin{document}
+
+\frame{\titlepage}
+
+%\begin{frame}
+%\frametitle{Table of Contents}
+%\tableofcontents
+%\end{frame}
+
+
+
+
+
+\section{First section}
+
+\begin{frame}
+\frametitle{Variational Perspective}
+\cite{JMLR:v17:15-084}: Low-Resolution ODE 
+\begin{align}
+    \Ddot{X}_t + \frac{3}{t}\dot X_t +\nabla f(X_t)=0
+\end{align}
+\cite{WibisonoE7351} 
+
+generalized the ODE to high-order non-Euclidean cases through variational calculus.
+
+\begin{align}\label{Lagrangian1}
+    \mathcal{L}(X_t,\dot{X}_t,t) =e^{\alpha_t+\gamma_t}(D_h(X_t,X_t+e^{-\alpha_t}\dot{X}_t)-e^{\beta_t}f(X_t)), 
+\end{align}
+    Define the action on curves $\{X_t:t\in\mathbb R\}$ as $\mathcal{A}(X)=\int_{\mathbb R}\mathcal{L}(X_t,\dot X_t,t)dt $.
+
+\end{frame}
+\begin{frame}[t]{Variational Perspective}
+\small
+\begin{align}\label{general-low-res-ODE}
+    \Ddot{X}_t+\frac{p+1}{t}\dot X_t+Cp^2t^{p-1}\left[\nabla^2 h(X_t+\frac{t}{p}\dot X_t)\right]^{-1}\nabla f(X_t)=0,
+\end{align}
+\begin{center}
+\line(1,0){300}
+\end{center}
+
+
+
+
+    
+\end{frame}
+\begin{frame}[t]{Variational Perspective}
+\small
+    \begin{align}
+    \Ddot{X}_t+\frac{p+1}{t}\dot X_t+Cp^2t^{p-1}\left[\nabla^2 h(X_t+\frac{t}{p}\dot X_t)\right]^{-1}\nabla f(X_t)=0,
+\end{align}
+\begin{center}
+\line(1,0){300}
+\end{center}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}[t]{Discretization}
+\small
+    \begin{align}
+        Z_t=X_t+\frac{t}{p}\dot X_t\quad \frac{d}{dt}\nabla h(Z_t)=-Cpt^{p-1}\nabla f(X_t)
+    \end{align}
+    \begin{center}
+\line(1,0){300}
+\end{center}
+    Explicit Euler:
+\end{frame}
+
+
+\begin{frame}[t]{Discretization}
+\small
+    \begin{align}
+        Z_t=X_t+\frac{t}{p}\dot X_t\quad \frac{d}{dt}\nabla h(Z_t)=-Cpt^{p-1}\nabla f(X_t)
+    \end{align}
+    \begin{center}
+\line(1,0){300}
+\end{center}
+    Rate Matching:
+\end{frame}
+
+\begin{frame}[t,allowframebreaks]{Gaps}
+    1) Convex HR-ODE:
+
+\begin{align}\label{HR_Shi_cvx}
+     \Ddot{X}_t + (\frac{3}{t}+\sqrt{s}\nabla^2 f(X_t))\dot{X}_t+(1+\frac{3\sqrt{s}}{2t})\nabla f(X_t)=0.
+\end{align}
+Instead \cite{shi2019acceleration} discretized
+\begin{align}\label{HR_Shi_cvx2}
+     \Ddot{X}_t + (\frac{3}{t}+\sqrt{s}\nabla^2 f(X_t))\dot{X}_t+(1+\frac{3\sqrt{s}}{t})\nabla f(X_t)=0.
+\end{align}
+\alert{Question:} Is it possible to find an explanation for (\ref{HR_Shi_cvx2})?
+
+
+\framebreak
+
+
+2) Multiple High-Resolution ODEs which recover NAG algorithm:
+\footnotesize
+\cite{pmlr-v108-laborde20a,wilson2021lyapunov,shi2019acceleration}
+\begin{center}
+    Convex
+\end{center}
+\begin{align}
+    \Ddot{X}_t + (\frac{3}{t}+\sqrt{s}\nabla^2 f(X_t))\dot{X}_t+(1+\frac{\sqrt{s}}{t})\nabla f(X_t)=0.
+\end{align}
+\begin{align}
+    \Ddot{X}_t + (\frac{3}{t}+\sqrt{s}\nabla^2 f(X_t))\dot{X}_t+(1+\frac{3\sqrt{s}}{t})\nabla f(X_t)=0.
+\end{align}
+\begin{center}
+    Strongly-Convex
+\end{center}
+\begin{align}
+    \Ddot{X}_t + (2\sqrt{\mu}+\sqrt{s}\nabla^2 f(X_t))\dot{X}_t+(1+\sqrt{\mu s})\nabla f(X_t)=0.
+\end{align}
+\normalsize
+\alert{Question:} How can we recover them through variational perspective?
+
+
+\framebreak
+
+
+3) The Variational Perspective leads to a new presentation of NAG method for convex functions. This presentation can be discretized using SIE and recover NAG.  
+
+\alert{ Question:}What benefits does the new presentation of NAG has?
+
+Shi et al, showed that Nesterov's method satisfies
+$$ \min_{0\leq i\leq k}\|\nabla f(x_i)\|^2 \leq \frac{8568}{(k+1)^3s^2}\|x_0-x^*\|^2,$$
+for $0< s\leq 1/(3L)$ and $k\geq0$.
+
+\alert{Question:}Is it possible to improve this rate or step-size?
+
+
+\framebreak
+
+4) Wibisono applied rate-matching on his general low-resolution ODE and achieved acceleration. But, his method is different from the NAG algorithm. 
+
+\alert{Question:} Does rate matching algorithm follow the high-resolution structure as well? Does it mean that rate-matching implicitly perturbs the low-resolution ODE? 
+
+\framebreak
+
+5) \cite{pmlr-v108-laborde20a} added noise to gradients in Nesterov's algorithm and proved convergence rate of $O(1/\sqrt{k})$ for $\mathbb E [f(X_t)-f(x^*)]$. We know that with acceleration and variance reduction, we can reach up to $O(1/k^2)$ (Katyusha method). 
+
+\alert{Question:} How close can we get to this rate by adding noise to the previous algorithm?
+
+\alert{Question:} How can we characterize the noise to show the reduction behaviour (what should $\sigma^2_k$ be)?
+
+\alert{Question:} How about the rate for $\min_i \|\nabla f(X_i)\|^2$)? The proof by Laborde cannot give us a rate on $\min_i \|\nabla f(X_i)\|^2$.
+\end{frame}
+
+
+
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+\end{document}
