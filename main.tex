@@ -47,6 +47,7 @@
 \def\Z{ \mathbb{Z}}
 \def\N{ \mathbb{N}}
 \def\change{black}
+\newcommand{\hcm}[1]{\textcolor{blue}{#1}}
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 \newcommand{\norm}[1]{\left\|#1\right\|}
@@ -63,7 +64,8 @@
 \newtheorem*{rem}{\bf Remark}
 \newtheorem*{sketch}{\bf Proof sketch }
 \newtheorem*{note}{Note}
-\newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\newcommand*{\rom}[1]
+{\expandafter\@slowromancap\romannumeral #1@}
 \title{Updates on Meeting with Kostas}
 
 % The \author macro works with any number of authors. There are two commands
@@ -730,25 +732,33 @@ which is exactly the Nesterov's algorithm. Since (\ref{rate_match_3}) is exactly
 which is the perturbed version of (\ref{cont_rate_match_2_perturb3}).
 
 
-\subsection{A Stochastic Extention}
-In this section we will propose a stochastic variation of (\ref{new_algorithm_stochastic}). This method is a direct consequence of (\ref{new_algorithm}). We model stochasticity by adding i.i.d noise $e_k$ to the gradients 
+\subsection{Stochastic Extentions}
+In this section we will propose a stochastic variation of (\ref{new_algorithm_stochastic}). This method is a direct consequence of (\ref{new_algorithm}). We model noisy gradients by adding i.i.d noise $e_k$ to the gradients, 
 \begin{align}\label{new_algorithm_stochastic}
    \left\{ \begin{array}{ll}
-    &x_{k+1}   =    x_{k} + \frac{2s_k}{t_k}(v_k-x_{k+1})-\frac{s_k}{\sqrt{L}}(\nabla f(x_k)+e_k)\\
-     &v_{k+1}    = v_k -\tfrac{1}{2}((t_k)s_k)(\nabla f(x_{k+1})+e_{k+1})-s_k^2(\nabla f(x_{k+1})+e_{k+1}) 
+    &x_{k+1}   =    x_{k} + \frac{2s_k}{t_k}(v_k-x_{k+1})-\frac{s_k}{\sqrt{L}}(\nabla f(x_k)+e_k),\\
+     &v_{k+1}    = v_k -\tfrac{1}{2}((t_k)s_k)(\nabla f(x_{k+1})+e_{k+1})-s_k^2(\nabla f(x_{k+1})+e_{k+1}). 
     \end{array}\right.
 \end{align}
-In what follows, we prove the convergence of (\ref{new_algorithm_stochastic}). Specifically, we prove better transient behaviour than previous works \cite{pmlr-v108-laborde20a,}
+The updates (\ref{new_algorithm_stochastic}) is interesting due to its capability of dealing with perturbed gradients. This is the case in practical methods e.g. SGD \cite{bottou2010large}, SAG \cite{schmidt2017minimizing}, SAGA \cite{defazio2014saga}, SVRG \cite{johnson2013accelerating}, and etc.
+In what follows, we prove the convergence of (\ref{new_algorithm_stochastic}) and show that (\ref{new_algorithm_stochastic}) decreases $\mathbb E\left[\min_{0\leq i\leq k-1}\|\nabla f(x_i)\|^2 \right]$ with a rate of $O(k^{(-3/4)})$ where $O$ hides a factor of $\log(k)$. The latter was missed in \cite{pmlr-v108-laborde20a} \hcm{check the literature and see if we can make a comparison with current rates here}
 \begin{thm}\label{Theorem5}
     Consider $t_k=\sum_{i=1}^k s_k $ and $s_k=\frac{c}{k^{\alpha}}$ with $c\leq \frac{1}{\sqrt{L}}$ and $\frac{3}{4}\leq\alpha<1$. Then, if the update (\ref{new_algorithm_stochastic}) is used to find $x^*=\arg\min_x f(x)$, we will have
-    \begin{align}
-    \mathbb E[f(x_k)]-f(x^*)\leq \left\{\begin{array}{lr}
+    \begin{align}\label{conv_rate1_them6}
+    \mathbb E[f(x_k)]-f(x^*)&\leq \left\{\begin{array}{lr}
          \frac{\mathbb E[\varepsilon (0)]+\frac{c^4\sigma^2}{8}\left[16(1+\log(k))+32+6\right]}{2c^2\left[2(k^{\frac{1}{4}}-1)^2+k^{-\frac{3}{4}}(k^{\frac{1}{4}}-1)\right]} & \quad \alpha=\frac{3}{4} \\
           \frac{\mathbb E[\varepsilon (0)]+\frac{c^4\sigma^2}{8}\left[\frac{(4\alpha -2)}{(1-\alpha)^2(4\alpha-3)}+\frac{4(4\alpha -1)}{(1-\alpha)(4\alpha -2)}+\frac{4(4\alpha )}{(4\alpha -1)}\right]}{\frac{c^2}{2(1-\alpha)}\left[\frac{(k^{1-\alpha}-1)^2}{2(1-\alpha)}+k^{-\alpha}(k^{(1-\alpha)}-1)\right]}& \quad 1>\alpha>\frac{3}{4}
-    \end{array}\right.\nonumber
+    \end{array}\right.,
 \end{align}
-with $\mathbb E[\varepsilon (0)]=\frac{1}{2}\|v_0-x^*\|^2$.
+with $\mathbb E[\varepsilon (0)]=\frac{1}{2}\|v_0-x^*\|^2$. In addition, for $\alpha = 3/4$ we have
+\begin{align}\label{conv_rate2_them6}
+    \mathbb E\left[\min_{0\leq i\leq k-1}\|\nabla f(x_i)\|^2 \right] &\leq \frac{2\sqrt{L}\mathbb E[\varepsilon (0)]}{16c^3\left( \frac{k^{3/4}-1}{3} +k^{1/4}-\frac{3}{2}+k^{1/2}\right)}\nonumber\\
+    &+2c\sigma^2\sqrt{L}\frac{2\log (k)+6+\frac{3}{4}}{16\left( \frac{k^{3/4}-1}{3} +k^{1/4}-\frac{3}{2}+k^{1/2}\right)}.
+\end{align}
 \end{thm}
+\begin{rem}
+Note that $c\leq 1/\sqrt{L}$ and therefore, both rates in Theorem \ref{Theorem5} are independent of $L$. 
+\end{rem}
 \begin{proof}
     Take the Lyapunov function
     \begin{align}\label{Lyap_stochastic}
@@ -807,7 +817,9 @@ with $\mathbb E[\varepsilon (0)]=\frac{1}{2}\|v_0-x^*\|^2$.
          & -(\frac{t_k^2}{4}+\frac{s_kt_k}{2})\langle e_{k+1},x_{k+1}-x_k\rangle-\frac{(t_k+2s_k)s_k}{2}\langle e_{k+1},x_{k+1}-x^*\rangle\nonumber\\
          &-\frac{t_k(t_k+2s_k)s_k}{4\sqrt{L}}\left(\langle \nabla f(x_{k+1}),e_k \rangle+\langle \nabla f(x_{k}) , e_{k+1}\rangle+\langle e_{k+1},e_k\rangle\right).
         \end{align}
-        Taking $c\leq 1/\sqrt{L}$ in $s_k=c/k^{\alpha}$, we get $s_k\leq 1/\sqrt{L}$. This implies 
+        Here, the proof divides in 2 sections for each of the results in Theorem \ref{Theorem5}. First, we prove the rate for $\mathbb E\left[f(x_k)\right]-f(x^*)$. 
+        
+        a) Taking $c\leq 1/\sqrt{L}$ in $s_k=c/k^{\alpha}$, we get $s_k\leq 1/\sqrt{L}$. This implies 
         \begin{align}\label{Lyap_stc_7}
             -\frac{1}{2}\left(\frac{t_k}{2}+s_k\right)^2(\frac{1}{L}-s_k^2)&\leq -\frac{1}{2}\left(\frac{t_k^2}{4}+\frac{s_kt_k}{2} \right)(\frac{1}{L}-\frac{s_k}{\sqrt{L}}),\nonumber\\
             -\frac{1}{2L}\left(\frac{t_{k}^2}{4}+\frac{s_{k}t_{k}}{2}\right)&\leq -\frac{1}{2}\left(\frac{t_k^2}{4}+\frac{s_kt_k}{2} \right)(\frac{1}{L}-\frac{s_k}{\sqrt{L}}).
@@ -870,13 +882,12 @@ Using(\ref{Lyap_stc_11},\ref{Lyap_stc_12},\ref{Lyap_stc_13},\ref{Lyap_stc_14},\r
           \frac{\mathbb E[\varepsilon (0)]+\frac{c^4\sigma^2}{8}\left[\frac{(4\alpha -2)}{(1-\alpha)^2(4\alpha-3)}+\frac{4(4\alpha -1)}{(1-\alpha)(4\alpha -2)}+\frac{4(4\alpha )}{(4\alpha -1)}\right]}{\frac{c^2}{2(1-\alpha)}\left[\frac{(k^{1-\alpha}-1)^2}{2(1-\alpha)}+k^{-\alpha}(k^{(1-\alpha)}-1)\right]}& \quad 1>\alpha>\frac{3}{4}
     \end{array}\right.
 \end{align}
-with $\mathbb E[\varepsilon (0)]=\frac{1}{2}\|v_0-x^*\|^2$.
-for stochastic gradient norm minimization show that the stochastic extention of other guys (chen and shi) proof may not be good.
-\end{proof}
-\section{Stochastic Gradient Norm Minimization}
-To do: Comprehensive literature review
+with $\mathbb E[\varepsilon (0)]=\frac{1}{2}\|v_0-x^*\|^2$. 
 
-Using the proof of Theorem \ref{theorem4} and the transition from (\ref{Lyap_stc_6}) to (\ref{Lyap_stc_8}), one can write
+
+\hcm{for stochastic gradient norm minimization show that the stochastic extention of other guys (chen and shi) proof may not be good.}
+
+b) On the transition from (\ref{Lyap_stc_6}) to (\ref{Lyap_stc_8}), one can write
 \begin{align}\label{stc_GNM1}
     \varepsilon(k+1)-\varepsilon(k)&\leq \frac{s_k(t_k+2s_k)}{2}g_k-\frac{1}{2}\left( \frac{t_k^2}{4}+\frac{s_kt_k}{2} \right)(\frac{1}{L}-\frac{s_k}{\sqrt{L}})\|\nabla f(x_{k+1})-\nabla f(x_k)\|^2\nonumber\\
     &-\frac{1}{2}\left(\frac{t_k^2}{4}+\frac{s_kt_k}{2}\right)(\frac{s_k}{\sqrt{L}})\|\nabla f(x_k)\|^2\nonumber\\
@@ -929,35 +940,93 @@ and therefore,
     &+2c\sigma^2\sqrt{L}\frac{2\log (k)+6+\frac{3}{4}}{16\left( \frac{k^{3/4}-1}{3} +k^{1/4}-\frac{3}{2}+k^{1/2}\right)},
 \end{align}
 with $\mathbb E[\varepsilon(0)]=\tfrac{1}{2}\|x_0-x^*\|^2$.
-Note that the analysis in \cite{pmlr-v108-laborde20a} cannot achieve the bound proposed in Theorem ? (see \cite{pmlr-v108-laborde20a} Appendix C.4)
+\end{proof}
+Note that when the noise is omitted ($\sigma=0$), the parameter $\alpha$ can become zero. This is because we do not have to alleviate the effect of noise with decreasing step-sizes. Therefore, we recover the convergence rate of $O(1/k^2)$ for the NAG method for $c=1/\sqrt{L}$.
+Note that the analysis in \cite{pmlr-v108-laborde20a} cannot achieve the bound proposed in Theorem ? (see \cite{pmlr-v108-laborde20a} Appendix C.4)\par
+If we know the smoothness coefficient $L$, the convergence rate (\ref{conv_rate1_them6}) can be improved. Consider the update
+\begin{align}\label{new_alg_mixed_step}
+    \left\{ \begin{array}{ll}
+    &x_{k+1}   =    x_{k} + \frac{2s_k}{t_k}(v_k-x_{k+1})-\frac{\beta s_k}{\sqrt{L}}(\nabla f(x_k)+e_k),\\
+     &v_{k+1}    = v_k -\tfrac{1}{2}(t_ks_k+\tfrac{2s_k \beta}{\sqrt{L}})(\nabla f(x_{k+1})+e_{k+1})
+    \end{array}\right.
+\end{align}
+with $\beta = \tfrac{-2c^2+3}{4c^2}$. Then, the following convergence result holds.
+\begin{thm}\label{Theorem6}
+    Under the conditions of Theorem \ref{Theorem5} and $\beta = \tfrac{-2c^2+3}{4c^2}$, the update (\ref{new_alg_mixed_step}) will satisfy 
+    \begin{align}\label{conv_rate1_them6}
+    \mathbb E[f(x_k)]-f(x^*)&\leq \left\{\begin{array}{lr}
+         \frac{\mathbb E[\varepsilon (0)]+\frac{\sigma^2}{8}\left[16(1+\log(k))+\frac{\beta(80c^3)}{\sqrt{L}}+\frac{24\beta^2c^2}{L}\right]}{\frac{c^2}{4}\left((k^{\frac{1}{4}}-1)^2\right)+\frac{2c\beta}{\sqrt{L}}\left((k^{\frac{1}{4}}-1)\right)} & \quad \alpha=\frac{3}{4} \\
+          \frac{\mathbb E[\varepsilon (0)]+\frac{\sigma^2}{8}\left[\frac{c^4(4\alpha -2)}{(1-\alpha)^2(4\alpha-3)}+\frac{4\beta c^3(3\alpha -1)}{\sqrt{L}(1-\alpha)(3\alpha -2)}+\frac{4\beta^2c^2(42\alpha )}{L(2\alpha -1)}\right]}{\frac{c^2}{4(1-\alpha)^2}\left((k^{1-\alpha}-1)^2\right)+\frac{c\beta}{2\sqrt{L}(1-\alpha)}\left(k^{(1-\alpha)}-1\right)}& \quad 1>\alpha>\frac{3}{4}
+    \end{array}\right.,
+\end{align}
+\end{thm}
+\begin{proof}
+ Take the Lyapunov function
+    \begin{align}\label{Lyap_stochastic2}
+    \varepsilon(k)= (\frac{t_k^2}{4}+\frac{t_k\beta}{2\sqrt{L}})(f(x_k)-f(x^*))+\frac{1}{2}\|v_k-x^*\|^2.
+    \end{align}
+     Using (\ref{Lyap_stochastic2}) we have
+    \begin{align}\label{Lyap2_stc_1}
+        \varepsilon(k+1)-\varepsilon(k)&=(\frac{t_{k+1}^2}{4}+\frac{\beta t_{k+1}}{2\sqrt{L}})(f(x_{k+1})-f(x^*))\nonumber\\
+        &-(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})(f(x_{k})-f(x^*))+\frac{1}{2}(\|v_{k+1}-x^*\|^2-\|v_{k}-x^*\|^2),\nonumber\\
+        & = (\frac{t_{k+1}^2-t_k^2}{4}+\frac{\beta t_{k+1}-\beta t_k}{2\sqrt{L}})(f(x_{k+1})-f(x^*))\nonumber\\
+        &+(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})(f(x_{k+1})-f(x_k))+\frac{1}{2}(\|v_{k+1}-x^*\|^2-\|v_{k}-x^*\|^2),\nonumber\\
+        &= (\frac{t_{k+1}^2-t_k^2}{4}+\frac{\beta(t_{k+1}-t_k)}{2\sqrt{L}})(f(x_{k+1})-f(x^*))\nonumber\\
+        &+(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})(f(x_{k+1})-f(x_k))+\frac{1}{2}(\|v_{k+1}-v_k\|^2+2\langle v_{k+1}-v_k,v_k-x^*\rangle),
+    \end{align}
+    where in the last equality we used 
+    $$\langle a-b,a-c\rangle = \frac{1}{2}(\|a-b\|^2+\|a-c\|^2-\|b-c\|^2).$$
+    Next, from the update (\ref{new_alg_mixed_step}) we have
+    \begin{align}\label{Lyap2_stc_2}
+        \left\{\begin{array}{cl}
+             v_k-x^*=&\frac{t_k}{2s_k}(x_{k+1}-x_k)+x_{k+1}-x^*+\frac{t_k\beta }{2\sqrt{L}}(\nabla f(x_k)+e_k),  \\
+            v_{k+1}-v_k=& -\frac{1}{2}(t_ks_k+\tfrac{2s_k\beta}{\sqrt{L}}) (\nabla f(x_{k+1})+e_{k+1}).
+        \end{array}\right.
+    \end{align}
+    Using (\ref{Lyap2_stc_2}) in (\ref{Lyap2_stc_1}) we have
+    \begin{align}\label{Lyap_stc_3}
+        \varepsilon(k+1)-\varepsilon(k)&=(\frac{t_{k+1}^2-t_k^2}{4}+\frac{\beta(t_{k+1}-t_k)}{2\sqrt{L}})(f(x_{k+1})-f(x^*))\nonumber\\
+        &+(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})(f(x_{k+1})-f(x_k))+\frac{1}{8}((t_k+\frac{2\beta}{\sqrt{L}})s_k)^2\|\nabla f(x_{k+1})+e_{k+1}\|^2\nonumber\\
+        &-\frac{1}{2}\langle (t_k+\frac{2\beta}{\sqrt{L}})s_k (\nabla f(x_{k+1})+e_{k+1}), \frac{t_k}{2s_k}(x_{k+1}-x_k)+x_{k+1}-x^*\nonumber\\
+        &+\frac{t_k\beta}{2\sqrt{L}}(\nabla f(x_k)+e_k)\rangle.
+    \end{align}
+    Now, using (\ref{smooth_convex}) in (\ref{Lyap_stc_3}) we get
+    \begin{align}\label{Lyap2_stc_4}
+         \varepsilon(k+1)-\varepsilon(k)&\leq (\frac{t_{k+1}^2-t_k^2}{4}+\frac{\beta(t_{k+1}-t_k)}{2\sqrt{L}})(\langle \nabla f(x_{k+1}),x_{k+1}-x^* \rangle-\frac{1}{2L}\|\nabla f(x_{k+1})\|^2)\nonumber\\
+         & +(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})(\langle \nabla f(x_{k+1}),x_{k+1}-x_k \rangle-\frac{1}{2L}\|\nabla f(x_{k+1})-\nabla f(x_k)\|^2)\nonumber\\
+         & +\frac{1}{8}((t_k+\frac{2\beta}{2\sqrt{L}})s_k)^2(\|\nabla f(x_{k+1})\|^2+\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle) \nonumber\\
+         & -(\frac{t_k^2}{4}+\frac{\beta t_k}{2\sqrt{L}})\langle \nabla f(x_{k+1})+e_{k+1},x_{k+1}-x_k\rangle\nonumber\\
+         &-\frac{(t_k+\tfrac{2\beta}{\sqrt{L}})s_k}{2}\langle \nabla f(x_{k+1})+e_{k+1},x_{k+1}-x^*\rangle\nonumber\\
+         & -\frac{\beta t_k(t_k+\frac{2\beta}{\sqrt{L}})s_k}{4\sqrt{L}}\langle \nabla f(x_{k+1})+e_{k+1}, \nabla f(x_k)+e_k \rangle.
+         \end{align}
+          Due to $t_k=\sum_{i=1}^k s_k$, we get $t_{k+1}^2=t_k^2 + 2t_ks_{k+1}+ s_{k+1}^2$ and $s_{k+1}t_{k+1}=s_{k+1}t_k+s_{k+1}^2$. Also, note  that by definition $s_{k+1}\leq s{k}$ as long as $0<\alpha<1$. Thus,
+         $$\left(\frac{t_{k+1}^2-t_k^2}{4}+\frac{s_{k+1}t_{k+1}-t_ks_k}{2} -\frac{(t_k+2s_k)s_k}{2}\right)\leq 0.$$
+         Then, due to convexity and smoothness of $f$ we get
+         \begin{align}\label{Lyap_stc_5}
+             \left(\frac{t_{k+1}^2-t_k^2}{4}\right.&\left.+\frac{s_{k+1}t_{k+1}-t_ks_k}{2} -\frac{(t_k+2s_k)s_k}{2}\right)\langle \nabla f(x_{k+1}), x_{k+1}-x^* \rangle\nonumber\\
+             &\leq \frac{\left(\frac{t_{k+1}^2-t_k^2}{4}+\frac{s_{k+1}t_{k+1}-t_ks_k}{2} -\frac{(t_k+2s_k)s_k}{2}\right)}{2L}\|\nabla f(x_{k+1})\|^2.
+         \end{align} 
+        Replacing (\ref{Lyap_stc_5}) in (\ref{Lyap_stc_4}) and simplification gives
+        \begin{align}\label{Lyap_stc_6}
+            \varepsilon(k+1)-\varepsilon(k)&\leq -\frac{(t_k+2s_k)s_k}{4L} \|\nabla f(x_{k+1})\|^2-\frac{(\frac{t_{k}^2}{4}+\frac{s_{k}t_{k}}{2})}{2L}\|\nabla f(x_{k+1})-\nabla f(x_k)\|^2\nonumber\\
+            &+\frac{1}{8}((t_k+2s_k)s_k)^2(\|\nabla f(x_{k+1})\|^2+\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle) \nonumber\\
+            & -(\frac{t_k^2}{4}+\frac{s_kt_k}{2})\langle e_{k+1},x_{k+1}-x_k\rangle-\frac{(t_k+2s_k)s_k}{2}\langle e_{k+1},x_{k+1}-x^*\rangle\nonumber\\
+         & -\frac{t_k(t_k+2s_k)s_k}{4\sqrt{L}}\langle \nabla f(x_{k+1})+e_{k+1}, \nabla f(x_k)+e_k \rangle,\nonumber\\
+         &=\frac{1}{2}\left(\frac{t_k}{2}+s_k\right)^2(s_k^2-\frac{1}{L})\|\nabla f(x_{k+1})\|^2\nonumber\\
+         &+\frac{1}{2}\left(\frac{t_k^2}{4}+\frac{s_kt_k}{2} \right)(\frac{1}{L}-\frac{s_k}{\sqrt{L}}) 2\langle \nabla f(x_{k+1}),\nabla f(x_k) \rangle\nonumber\\
+         &-\frac{(\frac{t_{k}^2}{4}+\frac{s_{k}t_{k}}{2})}{2L}\|\nabla f(x_k)\|^2+\frac{1}{8}((t_k+2s_k)s_k)^2(\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle)\nonumber\\
+         & -(\frac{t_k^2}{4}+\frac{s_kt_k}{2})\langle e_{k+1},x_{k+1}-x_k\rangle-\frac{(t_k+2s_k)s_k}{2}\langle e_{k+1},x_{k+1}-x^*\rangle\nonumber\\
+         &-\frac{t_k(t_k+2s_k)s_k}{4\sqrt{L}}\left(\langle \nabla f(x_{k+1}),e_k \rangle+\langle \nabla f(x_{k}) , e_{k+1}\rangle+\langle e_{k+1},e_k\rangle\right).
+        \end{align}
 
-\begin{comment}
-Interestingly, both 
-discretization of 14 to nesterov and shi's ode (who used SIE) are different. why? it is interesting because they are using the same ODE but different representations. Add natural motion description. rate matching discretization? 2 Lyapunov functions for different cases.
-Applying SIE on (\ref{Nes_cont_cvx_HR}) with $t_k=k+2$ gives
-\begin{align}\label{Nes_cont_cvx_HR_SIE}
-   \left\{ \begin{array}{ll}
-    &x_{k+1}   =    x_{k} + \frac{p}{k+2}(v_k-x_k)-{s}\nabla f(x_k)\\
-     &v_{k+1}    = v_k -Cp\sqrt{s}((k+2)\sqrt{s})^{p-1}\sqrt{s}\nabla f(x_{k+1}) 
-    \end{array}\right.
-\end{align}
-Note that Nesterov accelerated gradient (NAG) for convex functions was
-\begin{align}\label{Nes_cont_cvx_HR_Shi}
-   \left\{ \begin{array}{ll}
-    &y_{k+1}   =    x_{k} -s\nabla f(x_k)\\
-     &x_{k+1}    = y_{k+1}+\frac{k}{k+3}(y_{k+1}+y_{k}) -s(\frac{k}{k+3}\nabla f(y_{k+1})-\frac{k-1}{k+3}\nabla f(y_{k})) 
-    \end{array}\right.
-\end{align}
-Setting $p=2,C=1/4$ in (\ref{Nes_cont_cvx_HR_SIE}) we get
-\begin{align}
-   \left\{ \begin{array}{ll}
-    &x_{k+1}   =    x_{k} + \frac{2}{k+2}(v_k-x_k)-{s}\nabla f(x_k)\\
-     &v_{k+1}    = v_k -\frac{1}{2}((k+2)){s}\nabla f(x_{k+1}) 
-    \end{array}\right.
-\end{align}
+    
+\end{proof}
 
-Rate matching discretization and the expliciti dane by laborde are the same. When does rate matching becomes the same as semi implicit euler?
-\end{comment}
+
+
+
+
+
 \section{Numerical Results}\label{sec_numerical}
 In this section we will investigate the performance of (\ref{new_algorithm_stochastic}) for various 
 \section{Conclusion}\label{sec_conclusion}
