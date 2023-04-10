@@ -1,0 +1,41 @@
+function [x_save,error_me_Gaus_noise,upperbound,upperbound2,upperbound_laborde] = acc_gaussian_binary_class(s_k,nepochs,x,iter,c,sigma,x_star,X,Y,f)
+
+t_k_sum = 0;
+[n,d] = size(X);
+L = 1/(c^2);
+v=x;
+grad = sum(-1/n.*(Y.*X)'.*(exp(-Y.*(X*x)))'./(1+exp(-Y.*(X*x)))',2);
+
+x0 = x;
+error_me_Gaus_noise = zeros(1,iter);
+%a = (-2*c^2+3+sqrt((2*c^2-1)^2+8))/(4*c^2);
+a = (-2*c^2+3)/(4*c^2);
+
+for k=1:iter
+    %error_me(k) = norm(gradf(x(:,k)))^2;
+    
+  
+    error_me_Gaus_noise(1,k) = f(x,X,Y)-f(x_star,X,Y);
+        t_k_sum = t_k_sum+s_k(k);
+        noise1 = randn(d,1);
+        
+        
+        x = (1+2*s_k(k)/t_k_sum)^(-1)*(x + 2*s_k(k)/t_k_sum *v)-(1+2*s_k(k)/t_k_sum)^(-1)*s_k(k)*a/sqrt(L)*(grad+sigma^(1/2)*noise1);
+        x_save(:,k) = x;
+        grad = sum(-1/n.*(Y.*X)'.*(exp(-Y.*(X*x)))'./(1+exp(-Y.*(X*x)))',2);
+
+        %noise1 = randn(d,1);
+        v = v - 1/2*(t_k_sum*s_k(k)+2*s_k(k)*a/sqrt(L))*(grad+sigma^(1/2)*noise1);
+
+        upperbound(k) = (1/2*norm(x0-x_star)^2+c^4*sigma^2/8*(16*(1+log(k))+38))/(2*c^2*(2*((k+1)^(1/4)-1)^2+(k+1)^(-3/4)*((k+1)^(1/4)-1)));
+
+        
+        upperbound_laborde(k) = (1/(32*c^2)*norm(x0-x_star)^2+c^2*sigma^2*(1+log(k)))/(((k+1)^(1/4)-1)^2);
+        upperbound2(k) = (1/2*norm(x0-x_star)^2+c^4*sigma^2/8*(16*(1+log(k))+80*a+12*a^2))/(c^2*4*(((k+1)^(1/4)-1)^2)+2*c^2*a*((k+1)^(1/4)-1));
+
+end
+    
+
+
+
+end
