@@ -994,24 +994,25 @@ with $\beta = \tfrac{-2c^2+3}{4c^2}$. Then, the following convergence result hol
     \begin{align}\label{Lyap2_stc_4}
          \varepsilon(k+1)-\varepsilon(k)&\leq (\frac{t_{k+1}^2-t_k^2}{4}+\frac{\beta(t_{k+1}-t_k)}{2\sqrt{L}})(\langle \nabla f(x_{k+1}),x_{k+1}-x^* \rangle-\frac{1}{2L}\|\nabla f(x_{k+1})\|^2)\nonumber\\
          & +(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})(\langle \nabla f(x_{k+1}),x_{k+1}-x_k \rangle-\frac{1}{2L}\|\nabla f(x_{k+1})-\nabla f(x_k)\|^2)\nonumber\\
-         & +\frac{1}{8}((t_k+\frac{2\beta}{2\sqrt{L}})s_k)^2(\|\nabla f(x_{k+1})\|^2+\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle) \nonumber\\
+         & +\frac{1}{8}((t_k+\frac{2\beta}{\sqrt{L}})s_k)^2(\|\nabla f(x_{k+1})\|^2+\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle) \nonumber\\
          & -(\frac{t_k^2}{4}+\frac{\beta t_k}{2\sqrt{L}})\langle \nabla f(x_{k+1})+e_{k+1},x_{k+1}-x_k\rangle\nonumber\\
          &-\frac{(t_k+\tfrac{2\beta}{\sqrt{L}})s_k}{2}\langle \nabla f(x_{k+1})+e_{k+1},x_{k+1}-x^*\rangle\nonumber\\
          & -\frac{\beta t_k(t_k+\frac{2\beta}{\sqrt{L}})s_k}{4\sqrt{L}}\langle \nabla f(x_{k+1})+e_{k+1}, \nabla f(x_k)+e_k \rangle.
          \end{align}
-          Due to $t_k=\sum_{i=1}^k s_k$, we get $t_{k+1}^2=t_k^2 + 2t_ks_{k+1}+ s_{k+1}^2$ and $s_{k+1}t_{k+1}=s_{k+1}t_k+s_{k+1}^2$. Also, note  that by definition $s_{k+1}\leq s{k}$ as long as $0<\alpha<1$. Thus,
-         $$\left(\frac{t_{k+1}^2-t_k^2}{4}+\frac{s_{k+1}t_{k+1}-t_ks_k}{2} -\frac{(t_k+2s_k)s_k}{2}\right)\leq 0.$$
+          Due to $t_k=\sum_{i=1}^k s_k$, we get $t_{k+1}^2=t_k^2 + 2t_ks_{k+1}+ s_{k+1}^2$ and $t_{k+1}=t_k+s_{k+1}$. Also, note  that by definition $s_{k+1}\leq s{k}$ as long as $0<\alpha<1$. Thus,
+         $$\left(\frac{t_{k+1}^2-t_k^2}{4}+\frac{\beta (t_{k+1}-t_k)}{2\sqrt{L}} -\frac{(t_k+2\frac{\beta}{\sqrt{L}})s_k}{2}\right)\leq 0,$$
+         for $\beta \geq 1/(2k^\alpha)$.
          Then, due to convexity and smoothness of $f$ we get
-         \begin{align}\label{Lyap_stc_5}
-             \left(\frac{t_{k+1}^2-t_k^2}{4}\right.&\left.+\frac{s_{k+1}t_{k+1}-t_ks_k}{2} -\frac{(t_k+2s_k)s_k}{2}\right)\langle \nabla f(x_{k+1}), x_{k+1}-x^* \rangle\nonumber\\
-             &\leq \frac{\left(\frac{t_{k+1}^2-t_k^2}{4}+\frac{s_{k+1}t_{k+1}-t_ks_k}{2} -\frac{(t_k+2s_k)s_k}{2}\right)}{2L}\|\nabla f(x_{k+1})\|^2.
+         \begin{align}\label{Lyap2_stc_5}
+             \left(\frac{t_{k+1}^2-t_k^2}{4}\right. & \left. +\frac{\beta (t_{k+1}-t_k)}{2\sqrt{L}} -\frac{(t_k+2\frac{\beta}{\sqrt{L}})s_k}{2}\right)\langle \nabla f(x_{k+1}), x_{k+1}-x^* \rangle\nonumber\\
+             &\leq \frac{\left(\frac{t_{k+1}^2-t_k^2}{4}+\frac{\beta (t_{k+1}-t_k)}{2\sqrt{L}} -\frac{(t_k+2\frac{\beta}{\sqrt{L}})s_k}{2}\right)}{2L}\|\nabla f(x_{k+1})\|^2.
          \end{align} 
-        Replacing (\ref{Lyap_stc_5}) in (\ref{Lyap_stc_4}) and simplification gives
-        \begin{align}\label{Lyap_stc_6}
-            \varepsilon(k+1)-\varepsilon(k)&\leq -\frac{(t_k+2s_k)s_k}{4L} \|\nabla f(x_{k+1})\|^2-\frac{(\frac{t_{k}^2}{4}+\frac{s_{k}t_{k}}{2})}{2L}\|\nabla f(x_{k+1})-\nabla f(x_k)\|^2\nonumber\\
-            &+\frac{1}{8}((t_k+2s_k)s_k)^2(\|\nabla f(x_{k+1})\|^2+\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle) \nonumber\\
-            & -(\frac{t_k^2}{4}+\frac{s_kt_k}{2})\langle e_{k+1},x_{k+1}-x_k\rangle-\frac{(t_k+2s_k)s_k}{2}\langle e_{k+1},x_{k+1}-x^*\rangle\nonumber\\
-         & -\frac{t_k(t_k+2s_k)s_k}{4\sqrt{L}}\langle \nabla f(x_{k+1})+e_{k+1}, \nabla f(x_k)+e_k \rangle,\nonumber\\
+        Replacing (\ref{Lyap2_stc_5}) in (\ref{Lyap2_stc_4}) and simplification gives
+        \begin{align}\label{Lyap2_stc_6}
+            \varepsilon(k+1)-\varepsilon(k)&\leq -\frac{(t_k+2\frac{\beta}{\sqrt{L}})s_k}{4L} \|\nabla f(x_{k+1})\|^2-\frac{(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})}{2L}\|\nabla f(x_{k+1})-\nabla f(x_k)\|^2\nonumber\\
+            &+\frac{1}{8}((t_k+\frac{2\beta}{\sqrt{L}})s_k)^2(\|\nabla f(x_{k+1})\|^2+\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle) \nonumber\\
+            & -(\frac{t_k^2}{4}+\frac{\beta t_k}{2\sqrt{L}})\langle e_{k+1},x_{k+1}-x_k\rangle-\frac{(t_k+\tfrac{2\beta}{\sqrt{L}})s_k}{2}\langle e_{k+1},x_{k+1}-x^*\rangle\nonumber\\
+         & -\frac{\beta t_k(t_k+\frac{2\beta}{\sqrt{L}})s_k}{4\sqrt{L}}\langle \nabla f(x_{k+1})+e_{k+1}, \nabla f(x_k)+e_k \rangle,\nonumber\\
          &=\frac{1}{2}\left(\frac{t_k}{2}+s_k\right)^2(s_k^2-\frac{1}{L})\|\nabla f(x_{k+1})\|^2\nonumber\\
          &+\frac{1}{2}\left(\frac{t_k^2}{4}+\frac{s_kt_k}{2} \right)(\frac{1}{L}-\frac{s_k}{\sqrt{L}}) 2\langle \nabla f(x_{k+1}),\nabla f(x_k) \rangle\nonumber\\
          &-\frac{(\frac{t_{k}^2}{4}+\frac{s_{k}t_{k}}{2})}{2L}\|\nabla f(x_k)\|^2+\frac{1}{8}((t_k+2s_k)s_k)^2(\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle)\nonumber\\
