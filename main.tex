@@ -345,37 +345,7 @@ The convergence of (\ref{HR_general_ODE_F_laborde}) is shown in the following th
 Under the ideal scaling conditions $\dot\beta_t\leq e^{\alpha_t}, \dot\gamma_t=e^{\alpha t}$, the dynamic (\ref{HR_general_ODE_F_laborde}) for convex function $f$ will satisfy 
 $$f(X_t)-f(x^*)\leq \mathcal{O}(e^{-\beta_t})$$
 \end{thm}
-\begin{proof}
-Consider the Lyapunov function 
-\begin{align}\label{lyap_theorem_C}
-    \varepsilon(t)=\frac{1}{2}\|X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\|^2+e^{\beta_t}(f(X_t)-f(x^*)).
-\end{align}
-Taking derivative with respect to $t$ gives
-\begin{align}\label{prf_thm1_eqn1}
-    \frac{d \varepsilon}{dt}=&\langle \frac{d}{dt}(X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)),X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\rangle\nonumber\\
-    & +\dot \beta_t e^{\beta_t}(f(X_t)-f(x^*))+e^{\beta_t}\dot X_t\nabla f(X_t).
-\end{align}
-Note that (\ref{HR_general_ODE_F_laborde}) can be represented as
-\begin{align}\label{HR_general_der_format_laborde}
-    \frac{d}{dt}\left[X_t+e^{-\alpha_t}\dot X_t+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\right]=-e^{\alpha_t+\beta_t}\nabla f(X_t).
-\end{align}
-Using (\ref{HR_general_der_format_laborde}) in (\ref{prf_thm1_eqn1}) we have
-\begin{align}
-     \frac{d \varepsilon}{dt}=& \langle -e^{\alpha_t+\beta_t}\nabla f(X_t),X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t) \rangle \nonumber \\
-     &+\dot \beta_t e^{\beta_t}(f(X_t)-f(x^*))+e^{\beta_t}\dot X_t\nabla f(X_t)\nonumber\\
-     &= -e^{\alpha_t+\beta_t}\langle\nabla f(X_t),X_t-x^*\rangle -e^{\beta_t}\langle \nabla f(X_t),\dot X_t\rangle -\sqrt{s}e^{\beta_t}\|\nabla f(X_t)\|^2\nonumber\\
-     &+\dot \beta_te^{\beta_t}(f(X_t)-f(x^*))+e^{\beta_t}\langle \dot X_t,\nabla f(X_t) \rangle\nonumber\\
-     & \overset{\text{(\ref{convexity}})}{\leq} -e^{\alpha_t+\beta_t}(f(X_t)-f(x^*))+\dot \beta_te^{\beta_t}(f(X_t)-f(x^*))\nonumber\\
-     & = -e^{\beta_t}\left[(e^{\alpha_t}-\dot \beta_t)(f(X_t)-f(x^*))\right].\nonumber
-\end{align}
-Utilizing the ideal scaling condition $\dot \beta_t\leq e^{\alpha_t}$ we have
-\begin{align}
-     \frac{d \varepsilon}{dt}\leq 0.\nonumber
-\end{align}
-Thus, for the initialization point $t_0$ we have
-$$e^{\beta_t}(f(X_t)-f(x^*))\leq \varepsilon(t)\leq \varepsilon(t_0),$$
-and the proof is complete.
-\end{proof}
+
 Choosing parameters as
 \begin{align}\label{prams_general}
         \alpha_t&=\log (n(t)),\nonumber\\
@@ -406,42 +376,7 @@ which has the following convergence result.
 Under the modified ideal scaling conditions $\dot\beta_t\leq e^{\alpha_t}, \dot\gamma_t=e^{\alpha t}, \Ddot{\beta}_t\leq e^{\alpha_t}\dot \beta_t + 2\dot \alpha_t \dot \beta_t$, the dynamic (\ref{HR_general_ODE_F_Shi}) for convex function $f$ will satisfy 
 $$f(X_t)-f(x^*)\leq \mathcal{O}(\frac{1}{e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t})$$
 \end{thm}
-\begin{proof}
-Consider the Lyapunov function 
-\begin{align}\label{lyap_theorem3}
-    \varepsilon(t)=\frac{1}{2}\|X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\|^2+(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t)(f(X_t)-f(x^*)).
-\end{align}
-Taking derivative with respect to $t$ gives
-\begin{align}\label{prf_thm3_eqn1}
-    \frac{d \varepsilon}{dt}=&\langle \frac{d}{dt}(X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)),X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\rangle\nonumber\\
-    & +(\dot \beta_te^{\beta_t}-\sqrt{s}(2\dot \alpha_t)e^{-2\alpha_t}\dot \beta_t +\sqrt{s}e^{-\alpha_t}\Ddot{\beta_t})(f(X_t)-f(x^*))\nonumber\\
-    &+(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t)\dot X_t\nabla f(X_t).
-\end{align}
-Note that (\ref{HR_general_ODE_F_laborde}) can be represented as
-\begin{align}\label{HR_general_der_format_Shi}
-    \frac{d}{dt}\left[X_t+e^{-\alpha_t}\dot X_t+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\right]=-\left(e^{\alpha_t+\beta_t}+\sqrt{s}e^{-\alpha_t}\dot \beta_t \right)\nabla f(X_t).
-\end{align}
-Using (\ref{HR_general_der_format_Shi}) in (\ref{prf_thm3_eqn1}) we have
-\begin{align}
-     \frac{d \varepsilon}{dt}=& \langle -\left(e^{\alpha_t+\beta_t}+\sqrt{s}e^{-\alpha_t}\dot \beta_t \right)\nabla f(X_t),X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t) \rangle \nonumber \\
-     &+(\dot \beta_te^{\beta_t}-\sqrt{s}(2\dot \alpha_t)e^{-2\alpha_t}\dot \beta_t +\sqrt{s}e^{-2\alpha_t}\Ddot{\beta_t})(f(X_t)-f(x^*))\nonumber\\
-    &+(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t)\langle\nabla f(X_t),\dot X_t\rangle,\nonumber\\
-     &= -\left(e^{\alpha_t+\beta_t}+\sqrt{s}e^{-\alpha_t}\dot \beta_t \right)\langle\nabla f(X_t),X_t-x^*\rangle -\left(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t \right)\langle \nabla f(X_t),\dot X_t\rangle \nonumber\\
-     &-\sqrt{s}\left(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t \right)\|\nabla f(X_t)\|^2\nonumber\\
-     &+(\dot \beta_te^{\beta_t}-\sqrt{s}(2\dot \alpha_t)e^{-2\alpha_t}\dot \beta_t +\sqrt{s}e^{-2\alpha_t}\Ddot{\beta_t})(f(X_t)-f(x^*))\nonumber\\
-    &+(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t)\langle\nabla f(X_t),\dot X_t\rangle,\nonumber\\
-     & \overset{\text{(\ref{convexity}})}{\leq} -\left(e^{\alpha_t+\beta_t}+\sqrt{s}e^{-\alpha_t}\dot \beta_t \right)(f(X_t)-f(x^*))\nonumber\\
-     &+(\dot \beta_te^{\beta_t}-\sqrt{s}(2\dot \alpha_t)e^{-2\alpha_t}\dot \beta_t +\sqrt{s}e^{-2\alpha_t}\Ddot{\beta_t})(f(X_t)-f(x^*)),\nonumber\\
-     & = -\left[e^{\beta_t}(e^{\alpha_t}-\dot \beta_t)+\sqrt{s}e^{-\alpha_t}(\dot \beta_t+2\dot \alpha_t e^{-\alpha_t}\dot \beta_t-e^{-\alpha_t}\Ddot{\beta}_t)\right](f(X_t)-f(x^*)).\nonumber
-\end{align}
-Utilizing the modified ideal scaling conditions $\dot \beta_t\leq e^{\alpha_t}$ and $\Ddot{\beta}_t\leq e^{\alpha_t}\dot \beta_t + 2\dot \alpha_t \dot \beta_t$ we have
-\begin{align}
-     \frac{d \varepsilon}{dt}\leq 0.\nonumber
-\end{align}
-Thus, for the initialization point $t_0$ we have
-$$(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t)(f(X_t)-f(x^*))\leq \varepsilon(t)\leq \varepsilon(t_0),$$
-and the proof is complete.
-\end{proof}
+
 As it can be inferred, Theorem \ref{Theorem_ODE_Shi} reveals faster convergence rate than Theorem \ref{Theorem_ODE_laborde} which suggests the superiority of the high-resolution ODE found by \cite{Shi2021UnderstandingTA} to the ODE from \cite{pmlr-v108-laborde20a}. Taking the same parameters (\ref{prams_general}) gives
  \begin{align}\label{HR_cnts_general_npq_SHI}
 \left\{
@@ -482,38 +417,7 @@ The following theorem shows the convergence of (\ref{sc_eqn1}).
     \end{align}
     for $\mu$-strongly convex function $f$.
 \end{thm}
-\begin{proof}
-    Consider the Lyapunov function
-    \begin{align}\label{thm32_eqn_1}
-        \varepsilon(t) = e^{\beta_t}\left(\frac{\mu}{2}\|X_t-x^*+e^{-\alpha_t}\dot X_t+\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\|^2+f(X_t)-f(x^*)\right).
-    \end{align}
-    Taking derivative w.r.t. time gives
-    \begin{align}\label{thm32_eqn_2}
-       \frac{d\varepsilon(t)}{dt}&=\dot \beta e^{\beta_t}\left(\frac{\mu}{2}\|X_t-x^*+e^{-\alpha_t}\dot X_t+\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\|^2+f(X_t)-f(x^*)\right)\nonumber\\
-       & + \mu e^{\beta_t}\left\langle \dot X_t-\dot \alpha_t e^{-\alpha_t}\dot X_t + e^{\alpha_t}\Ddot{X}_t +\frac{\sqrt{s}}{\mu}\dot \alpha_te^{\alpha_t}\nabla f(X_t)+\frac{\sqrt{s}}{\mu}e^{\alpha_t}\nabla ^2f(X_t)\dot X_t\right.\nonumber\\
-       &\left. ,X_t-x^*+e^{-\alpha_t}\dot X_t+\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\right\rangle+e^{\beta_t}\langle \nabla f(X_t),\dot X_t \rangle.
-    \end{align}
-    Next, we will use (\ref{sc_eqn1}) in (\ref{thm32_eqn_2})
-    \begin{align}\label{thm32_eqn_3}
-        \frac{d\varepsilon(t)}{dt}&=\dot \beta e^{\beta_t}\left(\frac{\mu}{2}\|X_t-x^*+e^{-\alpha_t}\dot X_t+\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\|^2+f(X_t)-f(x^*)\right)\nonumber\\
-       & + \mu e^{\beta_t}\left\langle \dot X_t-e^{-\alpha_t}(\dot \gamma_t+\dot \beta_t)\dot X_t  +\frac{e^{\alpha_t }}{\mu}(\sqrt{s}(\dot \alpha_t-\dot \beta_t)-1)\nabla f(X_t)\right.\nonumber\\
-       &\left. ,X-x^*+e^{-\alpha_t}\dot X_t+\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\right\rangle+e^{\beta_t}\langle \nabla f(X_t),\dot X_t \rangle,\nonumber\\
-   &= \dot \beta_t e^{\beta_t}\left(\frac{\mu}{2}\left[\|X_t-x^*\|^2+e^{-2\alpha_t}\|\dot X_t\|^2+\|\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\|^2+2e^{-\alpha_t}\langle X_t-x^*,\dot X_t\rangle\right.\right.\nonumber\\
-   &\left.\left.+\frac{2\sqrt{s}e^{\alpha_t}}{\mu}\langle X_t-x^*,\nabla f(X_t) \rangle+ \frac{2\sqrt{s}}{\mu}\langle \nabla f(X_t),\dot X_t \rangle\right]\right)+\dot \beta_t e^{\beta_t} (f(X_t)-f(x^*) )\nonumber\\
-   & +\mu e^{\beta_t}\left[ (1-e^{-\alpha_t}(\dot \gamma_t+\dot \beta_t))\langle \dot X_t,X_t-x^*\rangle+ e^{-\alpha_t}(1-e^{-\alpha_t}(\dot \gamma_t+\dot \beta_t))\|\dot X_t\|^2 \right.\nonumber\\
-   & +\frac{\sqrt{s}e^{\alpha_t}}{\mu}(1-e^{-\alpha_t}(\dot \gamma_t+\dot \beta_t))\langle \dot X_t,\nabla f(X_t) \rangle + \frac{e^{\alpha_t }}{\mu}(\sqrt{s}(\dot \alpha_t-\dot \beta_t)-1)\langle \nabla f(X_t) ,X_t-x^*\rangle\nonumber\\
-   & \left.+ \frac{(\sqrt{s}(\dot \alpha_t-\dot \beta_t)-1)}{\mu}\langle \nabla f(X_t),\dot X_t \rangle+\frac{\sqrt{s}e^{2\alpha_t}}{\mu^2}(\sqrt{s}(\dot \alpha_t-\dot \beta_t)-1)\|\nabla f(X_t)\|^2\right]\nonumber\\
-   & + e^{\beta_t}\langle \nabla f(X_t),\dot X_t \rangle.
-    \end{align}
-    Now, using strong convexity of $f$ and applying $\dot \alpha_t=\alpha$, $\dot \beta\geq 0$, $\dot \gamma_t=e^{\alpha_t}$, and $\dot \beta_t\leq e^{\alpha_t}$ gives
-    \begin{align}\label{thm32_eqn_4}
-        \frac{d\varepsilon(t)}{dt}&\leq-\dot \beta_t e^{\beta_t}\|\sqrt{\frac{\mu}{2}}e^{-\alpha_t}\dot X_t\|^2-\sqrt{s}e^{\beta_t}\dot \beta_t\langle \dot X_t,\nabla f(X_t) \rangle-\dot \beta_t e^{\beta_t}\|\frac{\sqrt{s}e^{\alpha_t}}{\sqrt{2\mu}}\nabla f(X_t)\|^2\nonumber\\
-        &=-\dot \beta_t e^{\beta_t} \|    \sqrt{\frac{\mu}{2}}e^{-\alpha_t}\dot X_t+  \frac{\sqrt{s}e^{\alpha_t}}{\sqrt{2\mu}}\nabla f(X_t)\|^2\leq 0,
-    \end{align}
-    and therefore, 
-    $$e^{\beta_t}(f(X_t)-f(x^*))\leq \varepsilon(t)\leq \varepsilon(0)$$
-    and the proof is complete.
-\end{proof}
+
 Taking $\alpha=\log(\sqrt{\mu})$ and $\gamma_t=\beta_t=\sqrt{\mu}t$ in (\ref{sc_eqn1}) gives the high-resolution ODE 
 \begin{align}\label{high-res-ODE}
     \Ddot{X}_t+(2\sqrt{\mu}+\sqrt{s}\nabla^2 f(X_t))\dot X_t +(1+\sqrt{\mu s })\nabla f(X_t)=0,
@@ -550,7 +454,273 @@ Next, we will prove a better rate of convergence for gradient norm minimization 
     $$f(x_k)-f(x^*)\leq \frac{2}{sk(k+2)}\|x_0-x^*\|^2$$
     for $0\leq s\leq 1/L$ and $x_0=v_0$.
 \end{thm}
-\begin{proof}
+
+
+
+
+\subsection{Rate-Matching Implicitly Perturbs}
+In this section, we show that the rate-matching technique used in \cite{WibisonoE7351} has an implicit perturbation. We show this by approving that the rate-matching when applied on the low-resolution ODE (\ref{LR_cnts_form}), has (approximately) the same high-resolution ODE as (\ref{HR_cnts_general_npq2}).  \par
+The general low-resolution ODE proposed by \cite{WibisonoE7351} is
+\begin{align}\label{gen_LR_ODE}
+    \Ddot{X}_t+\frac{p+1}{t}\dot X_t +Cp^2t^{p-2}\left[\nabla^2 h(X_t+\frac{t}{p}\dot X_t)\right]^{-1}\nabla f(X_t)=0,
+\end{align}
+where $C>0$ is a constant. Here, take $h=\frac{1}{2}\|\cdot\|^2$ and thus, $\nabla^2 h(x)=I_d$ with $I_d$ denoting the identity matrix. Wibisono et al., applied rate-matching discretization methodology on the ODE (\ref{gen_LR_ODE}) to derive their accelerated algorithm. Their final method was 
+\begin{align}\label{rate_match_1}
+    \left\{\begin{array}{l}
+    x_{k+1}=\frac{p}{k+p}z_k+\frac{k}{k+p}y_k,\\
+    y_{k}=\arg \min_y\left\{ f_{p-1}(y,x_{k})+\frac{N}{p\epsilon}\|y-x_k\|^p  \right\},   \\
+        z_{k}=\arg \min_z\left\{ Cpk^{(p-1)}\langle 
+\nabla f(y_{k}),z \rangle+\frac{1}{2\epsilon}\|z-z_{k-1}\|^2  \right\},    
+    \end{array}\right.
+\end{align}
+which had a convergence rate of $\mathcal{O}(1/\epsilon k^p)$ and for $p=2$ it reduces to
+\begin{align}\label{rate_match_2}
+    \left\{\begin{array}{l}
+    x_{k+1}=\frac{2}{k+2}z_k+\frac{k}{k+2}y_k,\\
+    y_{k}=x_k-\frac{\epsilon}{N}\nabla f(x_k),   \\
+    z_{k}=z_{k-1} -2C\epsilon k\nabla f(y_k)  .    
+    \end{array}\right.
+\end{align}
+The update (\ref{rate_match_2}) is not the same as the NAG method, but it has the same order of convergence. On top of that, it was derived from the low-resolution ODE (\ref{gen_LR_ODE}) and its convergence proof is based on a generalization of the estimate sequence technique \cite{baes2009estimate}. It remains an open question to understand the connection between (\ref{rate_match_2}) (which is the result of the rate-matching technique) and the NAG method. \par
+To answer the proposed question, we investigate the behaviour of (\ref{rate_match_2}) in limit of $\epsilon \rightarrow 0$.
+\begin{prop}\label{prop1}
+The continuous-time behaviour of (\ref{rate_match_2}) with $C=1/4,N=1$ is
+\begin{align}\label{cont_rate_match_2}
+    \Ddot{X}_t+(\frac{3}{t}+\sqrt{\epsilon}\nabla f(X_t))\dot X_t+\frac{\sqrt{\epsilon}}{t}\nabla f(X_t)=-\nabla f(Y_t).
+\end{align}
+If in addition, one approximates $Y_t\approx X_t$, then the high-resolution ODE (\ref{HR_cnts_general_npq2}) is achieved.
+\end{prop}
+According to \cite{WibisonoE7351}, the distance between sequences $x_k$ and $y_k$ in (\ref{rate_match_2}) decreases with rate of order $\sqrt{\epsilon}$. Therefore, if the approximation $X_t\approx Y_t$ is made (due to $\epsilon\rightarrow 0$), (\ref{cont_rate_match_2}) will be equivalent to
+\begin{align}\label{cont_rate_match_2_perturb}
+    \left\{\begin{array}{l}
+         \dot X_t = \frac{2}{t}(Z_t-X_t)-\sqrt{\epsilon}\nabla f(X_t),  \\
+          \dot Z_t = -\frac{t}{2}\nabla f(X_t).
+    \end{array}
+    \right.
+\end{align}
+which is the perturbation of the low-resolution ODE
+\begin{align}\label{cont_rate_match_2_perturb2}
+    \left\{\begin{array}{l}
+         \dot X_t = \frac{2}{t}(Z_t-X_t),  \\
+          \dot Z_t = -\frac{t}{2}\nabla f(X_t).
+    \end{array}
+    \right.
+\end{align}
+Note that (\ref{cont_rate_match_2_perturb2}) is equivalent to (\ref{LR_cnts_form}) for $p=2$. In this sense, rate-matching implicitly perturbs the low-resolution ODE. The question that naturally arises is that when do we recover the high-resolution ODE (\ref{HR_cnts_general_stable_ODE}) from rate-matching technique? To show this, we will first perturb the low-resolution ODE (\ref{cont_rate_match_2_perturb2}) in the second line. Then, the rate-matching discretization is applied. Perturbing (\ref{cont_rate_match_2_perturb2}) gives
+\begin{align}\label{cont_rate_match_2_perturb3}
+    \left\{\begin{array}{l}
+         \dot X_t = \frac{2}{t}(Z_t-X_t),  \\
+          \dot Z_t = -\frac{t}{2}\nabla f(X_t)-\sqrt{\epsilon}\nabla f(X_t).
+    \end{array}
+    \right.
+\end{align}
+Discretizing (\ref{cont_rate_match_2_perturb3}) using the rate-matching method with $t_k=k\sqrt{\epsilon}$ gives\footnote{Here, we did not replace $\nabla f(x_k)$ in the third line with $\nabla f(y_k)$ after discretization (this is the case in \cite{WibisonoE7351}). Also, the same shifting trick as in \cite{WibisonoE7351} ($k\rightarrow k+2$) is done in the update of $x_{k}$.}
+\begin{align}\label{rate_match_3}
+    \left\{\begin{array}{l}
+    x_{k+1}=\frac{2}{k+2}z_k+\frac{k}{k+2}y_k,\\
+    y_{k}=x_k-\epsilon\nabla f(x_k),   \\
+    z_{k}=z_{k-1} -\frac{\epsilon}{2} (k+2)\nabla f(x_{k})  ,
+    \end{array}\right.
+\end{align}
+which is exactly the Nesterov's algorithm. Since (\ref{rate_match_3}) is exactly the NAG method, its high-resolution ODE is (\ref{HR_cnts_general_stable_ODE}). This means that the corresponding high-resolution ODE of (\ref{rate_match_3}) is 
+\begin{align}\label{cont_rate_match_2_perturb4}
+    \left\{\begin{array}{l}
+         \dot X_t = \frac{2}{t}(Z_t-X_t)-\sqrt{\epsilon}\nabla f(X_t),  \\
+          \dot Z_t = -\frac{t}{2}\nabla f(X_t)-\sqrt{\epsilon}\nabla f(X_t).
+    \end{array}
+    \right.
+\end{align}
+which is the perturbed version of (\ref{cont_rate_match_2_perturb3}).
+
+
+\subsection{Stochastic Extentions}
+In this section we will propose a stochastic variation of (\ref{new_algorithm_stochastic}). This method is a direct consequence of (\ref{new_algorithm}). We model noisy gradients by adding i.i.d noise $e_k$ to the gradients, 
+\begin{align}\label{new_algorithm_stochastic}
+   \left\{ \begin{array}{ll}
+    &x_{k+1}   =    x_{k} + \frac{2s_k}{t_k}(v_k-x_{k+1})-\frac{s_k}{\sqrt{L}}(\nabla f(x_k)+e_k),\\
+     &v_{k+1}    = v_k -\tfrac{1}{2}((t_k)s_k)(\nabla f(x_{k+1})+e_{k+1})-s_k^2(\nabla f(x_{k+1})+e_{k+1}). 
+    \end{array}\right.
+\end{align}
+The updates (\ref{new_algorithm_stochastic}) is interesting due to its capability of dealing with perturbed gradients. This is the case in practical methods e.g. SGD \cite{bottou2010large}, SAG \cite{schmidt2017minimizing}, SAGA \cite{defazio2014saga}, SVRG \cite{johnson2013accelerating}, and etc.
+In what follows, we prove the convergence of (\ref{new_algorithm_stochastic}) and show that (\ref{new_algorithm_stochastic}) decreases $\mathbb E\left[\min_{0\leq i\leq k-1}\|\nabla f(x_i)\|^2 \right]$ with a rate of $O(k^{(-3/4)})$ where $O$ hides a factor of $\log(k)$. The latter was missed in \cite{pmlr-v108-laborde20a} \hcm{check the literature and see if we can make a comparison with current rates here}
+\begin{thm}\label{Theorem5}
+    Consider $t_k=\sum_{i=1}^k s_k $ and $s_k=\frac{c}{k^{\alpha}}$ with $c\leq \frac{1}{\sqrt{L}}$ and $\frac{3}{4}\leq\alpha<1$. Then, if the update (\ref{new_algorithm_stochastic}) is used to find $x^*=\arg\min_x f(x)$, we will have
+    \begin{align}\label{conv_rate1_them6}
+    \mathbb E[f(x_k)]-f(x^*)&\leq \left\{\begin{array}{lr}
+         \frac{\mathbb E[\varepsilon (0)]+\frac{c^4\sigma^2}{8}\left[16(1+\log(k))+32+6\right]}{2c^2\left[2(k^{\frac{1}{4}}-1)^2+k^{-\frac{3}{4}}(k^{\frac{1}{4}}-1)\right]} & \quad \alpha=\frac{3}{4} \\
+          \frac{\mathbb E[\varepsilon (0)]+\frac{c^4\sigma^2}{8}\left[\frac{(4\alpha -2)}{(1-\alpha)^2(4\alpha-3)}+\frac{4(4\alpha -1)}{(1-\alpha)(4\alpha -2)}+\frac{4(4\alpha )}{(4\alpha -1)}\right]}{\frac{c^2}{2(1-\alpha)}\left[\frac{(k^{1-\alpha}-1)^2}{2(1-\alpha)}+k^{-\alpha}(k^{(1-\alpha)}-1)\right]}& \quad 1>\alpha>\frac{3}{4}
+    \end{array}\right.,
+\end{align}
+with $\mathbb E[\varepsilon (0)]=\frac{1}{2}\|v_0-x^*\|^2$. In addition, for $\alpha = 3/4$ we have
+\begin{align}\label{conv_rate2_them6}
+    \mathbb E\left[\min_{0\leq i\leq k-1}\|\nabla f(x_i)\|^2 \right] &\leq \frac{2\sqrt{L}\mathbb E[\varepsilon (0)]}{16c^3\left( \frac{k^{3/4}-1}{3} +k^{1/4}-\frac{3}{2}+k^{1/2}\right)}\nonumber\\
+    &+2c\sigma^2\sqrt{L}\frac{2\log (k)+6+\frac{3}{4}}{16\left( \frac{k^{3/4}-1}{3} +k^{1/4}-\frac{3}{2}+k^{1/2}\right)}.
+\end{align}
+\end{thm}
+\begin{rem}
+Note that $c\leq 1/\sqrt{L}$ and therefore, both rates in Theorem \ref{Theorem5} are independent of $L$. 
+\end{rem}
+
+Note that when the noise is omitted ($\sigma=0$), the parameter $\alpha$ can become zero. This is because we do not have to alleviate the effect of noise with decreasing step-sizes. Therefore, we recover the convergence rate of $O(1/k^2)$ for the NAG method for $c=1/\sqrt{L}$.
+Note that the analysis in \cite{pmlr-v108-laborde20a} cannot achieve the bound proposed in Theorem \ref{Theorem5} (see \cite{pmlr-v108-laborde20a} Appendix C.4)\par
+If we know the smoothness coefficient $L$, the convergence rate (\ref{conv_rate1_them6}) can be improved. Consider the update
+\begin{align}\label{new_alg_mixed_step}
+    \left\{ \begin{array}{ll}
+    &x_{k+1}   =    x_{k} + \frac{2s_k}{t_k}(v_k-x_{k+1})-\frac{\beta s_k}{\sqrt{L}}(\nabla f(x_k)+e_k),\\
+     &v_{k+1}    = v_k -\tfrac{1}{2}(t_ks_k+\tfrac{2s_k \beta}{\sqrt{L}})(\nabla f(x_{k+1})+e_{k+1})
+    \end{array}\right.
+\end{align}
+with $\beta \geq 2$ and $k_0\geq 1$. Then, the following convergence result holds.
+\begin{thm}\label{Theorem6}
+    Under the conditions of Theorem \ref{Theorem5}, $\beta \geq 2$, and $k_0\geq 1$, the update (\ref{new_alg_mixed_step}) will satisfy 
+    \begin{align}
+        \mathbb E[f(x_k)]-f(x^*)\leq \tfrac{\mathbb E[\varepsilon(k_0)]+\frac{\sigma^2 c^4}{(1-\alpha)^2} \left[ k_0^{3-4\alpha}-k^{3-4\alpha} \right] + \frac{\sigma^2c^3\beta}{2\sqrt{L}(1-\alpha)(3\alpha -2)}\left[ k_0^{2-3\alpha}-k^{2-3\alpha} \right]+\frac{\beta^2c^2\sigma^2}{2L(2\alpha-1)}\left[ k_0^{1-2\alpha}-k^{1-2\alpha} \right]}{\frac{c^2}{4(1-\alpha)^2}\left((k^{1-\alpha}-1)^2\right)+\frac{c\beta}{2\sqrt{L}(1-\alpha)}\left(k^{(1-\alpha)}-1\right)}\nonumber
+    \end{align}
+    for $\alpha > 3/4$ and
+    \begin{align}
+        \mathbb E[f(x_k)]-f(x^*)\leq \tfrac{\mathbb E[\varepsilon(k_0)]+2\sigma^2 c^4 \left[ \log(\frac{k}{k_0}) \right] + \frac{8\sigma^2c^3\beta}{\sqrt{L}}\left[ k_0^{-1/4}-k^{-1/4} \right]
+        +\frac{\beta^2c^2\sigma^2}{L}\left[ k_0^{-1/2}-k^{-1/2} \right]}{4c^2\left((k^{1/4}-1)^2\right)+\frac{2c\beta}{\sqrt{L}}\left(k^{1/4}-1\right)}\nonumber
+    \end{align}
+    for $\alpha=3/4$.
+\end{thm}
+
+\section{Numerical Results}\label{sec_numerical}
+In this section we will investigate the performance of (\ref{new_algorithm_stochastic}) for various 
+\section{Conclusion}\label{sec_conclusion}
+
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+\section{Appendix}
+\subsection{Proof of Theorem \ref{Theorem_ODE_laborde}}\label{thm1_proof}
+Consider the Lyapunov function 
+\begin{align}\label{lyap_theorem_C}
+    \varepsilon(t)=\frac{1}{2}\|X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\|^2+e^{\beta_t}(f(X_t)-f(x^*)).
+\end{align}
+Taking derivative with respect to $t$ gives
+\begin{align}\label{prf_thm1_eqn1}
+    \frac{d \varepsilon}{dt}=&\langle \frac{d}{dt}(X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)),X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\rangle\nonumber\\
+    & +\dot \beta_t e^{\beta_t}(f(X_t)-f(x^*))+e^{\beta_t}\dot X_t\nabla f(X_t).
+\end{align}
+Note that (\ref{HR_general_ODE_F_laborde}) can be represented as
+\begin{align}\label{HR_general_der_format_laborde}
+    \frac{d}{dt}\left[X_t+e^{-\alpha_t}\dot X_t+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\right]=-e^{\alpha_t+\beta_t}\nabla f(X_t).
+\end{align}
+Using (\ref{HR_general_der_format_laborde}) in (\ref{prf_thm1_eqn1}) we have
+\begin{align}
+     \frac{d \varepsilon}{dt}=& \langle -e^{\alpha_t+\beta_t}\nabla f(X_t),X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t) \rangle \nonumber \\
+     &+\dot \beta_t e^{\beta_t}(f(X_t)-f(x^*))+e^{\beta_t}\dot X_t\nabla f(X_t)\nonumber\\
+     &= -e^{\alpha_t+\beta_t}\langle\nabla f(X_t),X_t-x^*\rangle -e^{\beta_t}\langle \nabla f(X_t),\dot X_t\rangle -\sqrt{s}e^{\beta_t}\|\nabla f(X_t)\|^2\nonumber\\
+     &+\dot \beta_te^{\beta_t}(f(X_t)-f(x^*))+e^{\beta_t}\langle \dot X_t,\nabla f(X_t) \rangle\nonumber\\
+     & \overset{\text{(\ref{convexity}})}{\leq} -e^{\alpha_t+\beta_t}(f(X_t)-f(x^*))+\dot \beta_te^{\beta_t}(f(X_t)-f(x^*))\nonumber\\
+     & = -e^{\beta_t}\left[(e^{\alpha_t}-\dot \beta_t)(f(X_t)-f(x^*))\right].\nonumber
+\end{align}
+Utilizing the ideal scaling condition $\dot \beta_t\leq e^{\alpha_t}$ we have
+\begin{align}
+     \frac{d \varepsilon}{dt}\leq 0.\nonumber
+\end{align}
+Thus, for the initialization point $t_0$ we have
+$$e^{\beta_t}(f(X_t)-f(x^*))\leq \varepsilon(t)\leq \varepsilon(t_0),$$
+and the proof is complete.
+\subsection{Proof of Theorem \ref{Theorem_ODE_Shi}}\label{thm3_proof}
+Consider the Lyapunov function 
+\begin{align}\label{lyap_theorem3}
+    \varepsilon(t)=\frac{1}{2}\|X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\|^2+(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t)(f(X_t)-f(x^*)).
+\end{align}
+Taking derivative with respect to $t$ gives
+\begin{align}\label{prf_thm3_eqn1}
+    \frac{d \varepsilon}{dt}=&\langle \frac{d}{dt}(X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)),X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\rangle\nonumber\\
+    & +(\dot \beta_te^{\beta_t}-\sqrt{s}(2\dot \alpha_t)e^{-2\alpha_t}\dot \beta_t +\sqrt{s}e^{-\alpha_t}\Ddot{\beta_t})(f(X_t)-f(x^*))\nonumber\\
+    &+(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t)\dot X_t\nabla f(X_t).
+\end{align}
+Note that (\ref{HR_general_ODE_F_laborde}) can be represented as
+\begin{align}\label{HR_general_der_format_Shi}
+    \frac{d}{dt}\left[X_t+e^{-\alpha_t}\dot X_t+\sqrt{s}e^{-\alpha_t}\nabla f(X_t)\right]=-\left(e^{\alpha_t+\beta_t}+\sqrt{s}e^{-\alpha_t}\dot \beta_t \right)\nabla f(X_t).
+\end{align}
+Using (\ref{HR_general_der_format_Shi}) in (\ref{prf_thm3_eqn1}) we have
+\begin{align}
+     \frac{d \varepsilon}{dt}=& \langle -\left(e^{\alpha_t+\beta_t}+\sqrt{s}e^{-\alpha_t}\dot \beta_t \right)\nabla f(X_t),X_t+e^{-\alpha_t}\dot X_t-x^*+\sqrt{s}e^{-\alpha_t}\nabla f(X_t) \rangle \nonumber \\
+     &+(\dot \beta_te^{\beta_t}-\sqrt{s}(2\dot \alpha_t)e^{-2\alpha_t}\dot \beta_t +\sqrt{s}e^{-2\alpha_t}\Ddot{\beta_t})(f(X_t)-f(x^*))\nonumber\\
+    &+(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t)\langle\nabla f(X_t),\dot X_t\rangle,\nonumber\\
+     &= -\left(e^{\alpha_t+\beta_t}+\sqrt{s}e^{-\alpha_t}\dot \beta_t \right)\langle\nabla f(X_t),X_t-x^*\rangle -\left(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t \right)\langle \nabla f(X_t),\dot X_t\rangle \nonumber\\
+     &-\sqrt{s}\left(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t \right)\|\nabla f(X_t)\|^2\nonumber\\
+     &+(\dot \beta_te^{\beta_t}-\sqrt{s}(2\dot \alpha_t)e^{-2\alpha_t}\dot \beta_t +\sqrt{s}e^{-2\alpha_t}\Ddot{\beta_t})(f(X_t)-f(x^*))\nonumber\\
+    &+(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t)\langle\nabla f(X_t),\dot X_t\rangle,\nonumber\\
+     & \overset{\text{(\ref{convexity}})}{\leq} -\left(e^{\alpha_t+\beta_t}+\sqrt{s}e^{-\alpha_t}\dot \beta_t \right)(f(X_t)-f(x^*))\nonumber\\
+     &+(\dot \beta_te^{\beta_t}-\sqrt{s}(2\dot \alpha_t)e^{-2\alpha_t}\dot \beta_t +\sqrt{s}e^{-2\alpha_t}\Ddot{\beta_t})(f(X_t)-f(x^*)),\nonumber\\
+     & = -\left[e^{\beta_t}(e^{\alpha_t}-\dot \beta_t)+\sqrt{s}e^{-\alpha_t}(\dot \beta_t+2\dot \alpha_t e^{-\alpha_t}\dot \beta_t-e^{-\alpha_t}\Ddot{\beta}_t)\right](f(X_t)-f(x^*)).\nonumber
+\end{align}
+Utilizing the modified ideal scaling conditions $\dot \beta_t\leq e^{\alpha_t}$ and $\Ddot{\beta}_t\leq e^{\alpha_t}\dot \beta_t + 2\dot \alpha_t \dot \beta_t$ we have
+\begin{align}
+     \frac{d \varepsilon}{dt}\leq 0.\nonumber
+\end{align}
+Thus, for the initialization point $t_0$ we have
+$$(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t)(f(X_t)-f(x^*))\leq \varepsilon(t)\leq \varepsilon(t_0),$$
+and the proof is complete.
+\subsection{Proof of Theorem \ref{Theorem3_1}}\label{thm4_proof}
+Consider the Lyapunov function
+    \begin{align}\label{thm32_eqn_1}
+        \varepsilon(t) = e^{\beta_t}\left(\frac{\mu}{2}\|X_t-x^*+e^{-\alpha_t}\dot X_t+\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\|^2+f(X_t)-f(x^*)\right).
+    \end{align}
+    Taking derivative w.r.t. time gives
+    \begin{align}\label{thm32_eqn_2}
+       \frac{d\varepsilon(t)}{dt}&=\dot \beta e^{\beta_t}\left(\frac{\mu}{2}\|X_t-x^*+e^{-\alpha_t}\dot X_t+\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\|^2+f(X_t)-f(x^*)\right)\nonumber\\
+       & + \mu e^{\beta_t}\left\langle \dot X_t-\dot \alpha_t e^{-\alpha_t}\dot X_t + e^{\alpha_t}\Ddot{X}_t +\frac{\sqrt{s}}{\mu}\dot \alpha_te^{\alpha_t}\nabla f(X_t)+\frac{\sqrt{s}}{\mu}e^{\alpha_t}\nabla ^2f(X_t)\dot X_t\right.\nonumber\\
+       &\left. ,X_t-x^*+e^{-\alpha_t}\dot X_t+\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\right\rangle+e^{\beta_t}\langle \nabla f(X_t),\dot X_t \rangle.
+    \end{align}
+    Next, we will use (\ref{sc_eqn1}) in (\ref{thm32_eqn_2})
+    \begin{align}\label{thm32_eqn_3}
+        \frac{d\varepsilon(t)}{dt}&=\dot \beta e^{\beta_t}\left(\frac{\mu}{2}\|X_t-x^*+e^{-\alpha_t}\dot X_t+\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\|^2+f(X_t)-f(x^*)\right)\nonumber\\
+       & + \mu e^{\beta_t}\left\langle \dot X_t-e^{-\alpha_t}(\dot \gamma_t+\dot \beta_t)\dot X_t  +\frac{e^{\alpha_t }}{\mu}(\sqrt{s}(\dot \alpha_t-\dot \beta_t)-1)\nabla f(X_t)\right.\nonumber\\
+       &\left. ,X-x^*+e^{-\alpha_t}\dot X_t+\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\right\rangle+e^{\beta_t}\langle \nabla f(X_t),\dot X_t \rangle,\nonumber\\
+   &= \dot \beta_t e^{\beta_t}\left(\frac{\mu}{2}\left[\|X_t-x^*\|^2+e^{-2\alpha_t}\|\dot X_t\|^2+\|\frac{\sqrt{s}e^{\alpha_t}}{\mu}\nabla f(X_t)\|^2+2e^{-\alpha_t}\langle X_t-x^*,\dot X_t\rangle\right.\right.\nonumber\\
+   &\left.\left.+\frac{2\sqrt{s}e^{\alpha_t}}{\mu}\langle X_t-x^*,\nabla f(X_t) \rangle+ \frac{2\sqrt{s}}{\mu}\langle \nabla f(X_t),\dot X_t \rangle\right]\right)+\dot \beta_t e^{\beta_t} (f(X_t)-f(x^*) )\nonumber\\
+   & +\mu e^{\beta_t}\left[ (1-e^{-\alpha_t}(\dot \gamma_t+\dot \beta_t))\langle \dot X_t,X_t-x^*\rangle+ e^{-\alpha_t}(1-e^{-\alpha_t}(\dot \gamma_t+\dot \beta_t))\|\dot X_t\|^2 \right.\nonumber\\
+   & +\frac{\sqrt{s}e^{\alpha_t}}{\mu}(1-e^{-\alpha_t}(\dot \gamma_t+\dot \beta_t))\langle \dot X_t,\nabla f(X_t) \rangle + \frac{e^{\alpha_t }}{\mu}(\sqrt{s}(\dot \alpha_t-\dot \beta_t)-1)\langle \nabla f(X_t) ,X_t-x^*\rangle\nonumber\\
+   & \left.+ \frac{(\sqrt{s}(\dot \alpha_t-\dot \beta_t)-1)}{\mu}\langle \nabla f(X_t),\dot X_t \rangle+\frac{\sqrt{s}e^{2\alpha_t}}{\mu^2}(\sqrt{s}(\dot \alpha_t-\dot \beta_t)-1)\|\nabla f(X_t)\|^2\right]\nonumber\\
+   & + e^{\beta_t}\langle \nabla f(X_t),\dot X_t \rangle.
+    \end{align}
+    Now, using strong convexity of $f$ and applying $\dot \alpha_t=\alpha$, $\dot \beta\geq 0$, $\dot \gamma_t=e^{\alpha_t}$, and $\dot \beta_t\leq e^{\alpha_t}$ gives
+    \begin{align}\label{thm32_eqn_4}
+        \frac{d\varepsilon(t)}{dt}&\leq-\dot \beta_t e^{\beta_t}\|\sqrt{\frac{\mu}{2}}e^{-\alpha_t}\dot X_t\|^2-\sqrt{s}e^{\beta_t}\dot \beta_t\langle \dot X_t,\nabla f(X_t) \rangle-\dot \beta_t e^{\beta_t}\|\frac{\sqrt{s}e^{\alpha_t}}{\sqrt{2\mu}}\nabla f(X_t)\|^2\nonumber\\
+        &=-\dot \beta_t e^{\beta_t} \|    \sqrt{\frac{\mu}{2}}e^{-\alpha_t}\dot X_t+  \frac{\sqrt{s}e^{\alpha_t}}{\sqrt{2\mu}}\nabla f(X_t)\|^2\leq 0,
+    \end{align}
+    and therefore, 
+    $$e^{\beta_t}(f(X_t)-f(x^*))\leq \varepsilon(t)\leq \varepsilon(0)$$
+    and the proof is complete.
+    \subsection{Proof of Proposition \ref{prop1}}
+    From the update rule (\ref{rate_match_2}) we have
+    \begin{align}\label{prop1_eqn1}
+        z_k = x_{k+1}+\frac{k}{2}(x_{k+1}-y_k)=x_{k+1}+\frac{k}{2}(x_{k+1}-x_k+\epsilon \nabla f(x_k)).
+    \end{align}
+    Replacing (\ref{prop1_eqn1}) in the update rule of $z_k$ in (\ref{rate_match_2}), we get
+    \begin{align}\label{prop1_eqn2}
+        x_{k+1}-x_k+\frac{k}{2}(x_{k+1}-x_k+\epsilon\nabla f(x_k))-\frac{k-1}{2}(x_k-x_{k-1}+\epsilon \nabla f(x_{k-1}))=-\frac{sk}{2}\nabla f(y_k).
+    \end{align}
+    By rearranging we have
+      \begin{align}\label{prop1_eqn3}
+        x_{k+1}-x_k&+\frac{1}{2}(x_{k}-x_{k-1})+\frac{\epsilon}{2}\nabla f(x_{k-1})+\frac{k}{2}(x_{k+1}+x_{k+1}-2x_k)\nonumber\\
+        &+\frac{k\epsilon}{2}(\nabla f(x_{k}- \nabla f(x_{k-1}))=-\frac{\epsilon k}{2}\nabla f(y_k),\nonumber\\
+        \rightarrow \color{blue}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})\color{black}&+\color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})\color{black}+\color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_k-x_{k-1}}{\sqrt{\epsilon}})\color{black} +\frac{1}{k}\nabla f(x_{k-1}) \nonumber\\
+        & +\frac{x_{k+2}-2x_k+x_{k-1}}{\epsilon}+\nabla f(x_k)-\nabla f(x_{k-1})=-\nabla f(y_k).
+    \end{align}
+    Using approximations
+    \begin{align}\label{prop1_eqn4}
+        \color{blue}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})&\approx \frac{\dot X(t_k)}{t_k},\\
+        \color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})\color{black}+\color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_k-x_{k-1}}{\sqrt{\epsilon}})&\approx \frac{1}{t_k}(\dot X(t_k)+\frac{\sqrt{\epsilon}}{2}\Ddot{X}(t_k)+ \dot X(t_k)-\frac{\sqrt{\epsilon}}{2}\Ddot{X}(t_k))\nonumber\\
+        &=\frac{1}{t_k}(2 \dot X(t_k))\\
+        \frac{x_{k+2}-2x_k+x_{k-1}}{\epsilon}&\approx \Ddot{X}(t_k)\\
+        \nabla f(x_k)-\nabla f(x_{k-1})&\approx \sqrt{\epsilon}\nabla^2 f(X(t_k))\dot X(t_k)\\
+        X(t)\approx X(t_k)\qquad \dot X(t)&\approx\dot X(t_k)\qquad \Ddot X(t)\approx\Ddot X(t_k) \qquad Y(t_k)\approx Y(t)
+    \end{align}
+    and $t_k=k\sqrt{\epsilon}$ in (\ref{prop1_eqn3}), we get
+\begin{align}\label{prop1_eqn5}
+    \Ddot{X}(t)+(\frac{3}{t}+\sqrt{\epsilon}\nabla f(X(t)))\dot X(t)+\frac{\sqrt{\epsilon}}{t}\nabla f(X(y))=-\nabla f(Y(t)).
+\end{align}
+This, concludes the proof.
+\subsection{Proof of Theorem \ref{theorem4}}\label{thm5_proof}
     Take the Lyapunov function 
 \begin{align}\label{Lyapunov_function}
     \varepsilon(k) = \frac{s(k+2)k}{4}(f(x_k)-f(x^*))+\frac{1}{2}\|x_{k+1}-x^*+\frac{k}{2}(x_{k+1}-x_k)+\frac{ks}{2}\nabla f(x_k)\|^2.
@@ -622,145 +792,8 @@ Also, from (\ref{Lyap_4}) we have $\varepsilon(k)\leq \varepsilon(0) = 1/2\|v_0-
     f(x_k)-f(x^*)\leq \frac{2}{sk(k+2)}\|x_0-x^*\|^2,
 \end{align}
 since $x_0=v_0$. This completes the proof.
-\end{proof}
-
-
-
-\subsection{Rate-Matching Implicitly Perturbs}
-In this section, we show that the rate-matching technique used in \cite{WibisonoE7351} has an implicit perturbation. We show this by approving that the rate-matching when applied on the low-resolution ODE (\ref{LR_cnts_form}), has (approximately) the same high-resolution ODE as (\ref{HR_cnts_general_npq2}).  \par
-The general low-resolution ODE proposed by \cite{WibisonoE7351} is
-\begin{align}\label{gen_LR_ODE}
-    \Ddot{X}_t+\frac{p+1}{t}\dot X_t +Cp^2t^{p-2}\left[\nabla^2 h(X_t+\frac{t}{p}\dot X_t)\right]^{-1}\nabla f(X_t)=0,
-\end{align}
-where $C>0$ is a constant. Here, take $h=\frac{1}{2}\|\cdot\|^2$ and thus, $\nabla^2 h(x)=I_d$ with $I_d$ denoting the identity matrix. Wibisono et al., applied rate-matching discretization methodology on the ODE (\ref{gen_LR_ODE}) to derive their accelerated algorithm. Their final method was 
-\begin{align}\label{rate_match_1}
-    \left\{\begin{array}{l}
-    x_{k+1}=\frac{p}{k+p}z_k+\frac{k}{k+p}y_k,\\
-    y_{k}=\arg \min_y\left\{ f_{p-1}(y,x_{k})+\frac{N}{p\epsilon}\|y-x_k\|^p  \right\},   \\
-        z_{k}=\arg \min_z\left\{ Cpk^{(p-1)}\langle 
-\nabla f(y_{k}),z \rangle+\frac{1}{2\epsilon}\|z-z_{k-1}\|^2  \right\},    
-    \end{array}\right.
-\end{align}
-which had a convergence rate of $\mathcal{O}(1/\epsilon k^p)$ and for $p=2$ it reduces to
-\begin{align}\label{rate_match_2}
-    \left\{\begin{array}{l}
-    x_{k+1}=\frac{2}{k+2}z_k+\frac{k}{k+2}y_k,\\
-    y_{k}=x_k-\frac{\epsilon}{N}\nabla f(x_k),   \\
-    z_{k}=z_{k-1} -2C\epsilon k\nabla f(y_k)  .    
-    \end{array}\right.
-\end{align}
-The update (\ref{rate_match_2}) is not the same as the NAG method, but it has the same order of convergence. On top of that, it was derived from the low-resolution ODE (\ref{gen_LR_ODE}) and its convergence proof is based on a generalization of the estimate sequence technique \cite{baes2009estimate}. It remains an open question to understand the connection between (\ref{rate_match_2}) (which is the result of the rate-matching technique) and the NAG method. \par
-To answer the proposed question, we investigate the behaviour of (\ref{rate_match_2}) in limit of $\epsilon \rightarrow 0$.
-\begin{prop}
-The continuous-time behaviour of (\ref{rate_match_2}) with $C=1/4,N=1$ is
-\begin{align}\label{cont_rate_match_2}
-    \Ddot{X}_t+(\frac{3}{t}+\sqrt{\epsilon}\nabla f(X_t))\dot X_t+\frac{\sqrt{\epsilon}}{t}\nabla f(X_t)=-\nabla f(Y_t).
-\end{align}
-If in addition, one approximates $Y_t\approx X_t$, then the high-resolution ODE (\ref{HR_cnts_general_npq2}) is achieved.
-\end{prop}
-\begin{proof}
-    From the update rule (\ref{rate_match_2}) we have
-    \begin{align}\label{prop1_eqn1}
-        z_k = x_{k+1}+\frac{k}{2}(x_{k+1}-y_k)=x_{k+1}+\frac{k}{2}(x_{k+1}-x_k+\epsilon \nabla f(x_k)).
-    \end{align}
-    Replacing (\ref{prop1_eqn1}) in the update rule of $z_k$ in (\ref{rate_match_2}), we get
-    \begin{align}\label{prop1_eqn2}
-        x_{k+1}-x_k+\frac{k}{2}(x_{k+1}-x_k+\epsilon\nabla f(x_k))-\frac{k-1}{2}(x_k-x_{k-1}+\epsilon \nabla f(x_{k-1}))=-\frac{sk}{2}\nabla f(y_k).
-    \end{align}
-    By rearranging we have
-      \begin{align}\label{prop1_eqn3}
-        x_{k+1}-x_k&+\frac{1}{2}(x_{k}-x_{k-1})+\frac{\epsilon}{2}\nabla f(x_{k-1})+\frac{k}{2}(x_{k+1}+x_{k+1}-2x_k)\nonumber\\
-        &+\frac{k\epsilon}{2}(\nabla f(x_{k}- \nabla f(x_{k-1}))=-\frac{\epsilon k}{2}\nabla f(y_k),\nonumber\\
-        \rightarrow \color{blue}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})\color{black}&+\color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})\color{black}+\color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_k-x_{k-1}}{\sqrt{\epsilon}})\color{black} +\frac{1}{k}\nabla f(x_{k-1}) \nonumber\\
-        & +\frac{x_{k+2}-2x_k+x_{k-1}}{\epsilon}+\nabla f(x_k)-\nabla f(x_{k-1})=-\nabla f(y_k).
-    \end{align}
-    Using approximations
-    \begin{align}\label{prop1_eqn4}
-        \color{blue}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})&\approx \frac{\dot X(t_k)}{t_k},\\
-        \color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})\color{black}+\color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_k-x_{k-1}}{\sqrt{\epsilon}})&\approx \frac{1}{t_k}(\dot X(t_k)+\frac{\sqrt{\epsilon}}{2}\Ddot{X}(t_k)+ \dot X(t_k)-\frac{\sqrt{\epsilon}}{2}\Ddot{X}(t_k))\nonumber\\
-        &=\frac{1}{t_k}(2 \dot X(t_k))\\
-        \frac{x_{k+2}-2x_k+x_{k-1}}{\epsilon}&\approx \Ddot{X}(t_k)\\
-        \nabla f(x_k)-\nabla f(x_{k-1})&\approx \sqrt{\epsilon}\nabla^2 f(X(t_k))\dot X(t_k)\\
-        X(t)\approx X(t_k)\qquad \dot X(t)&\approx\dot X(t_k)\qquad \Ddot X(t)\approx\Ddot X(t_k) \qquad Y(t_k)\approx Y(t)
-    \end{align}
-    and $t_k=k\sqrt{\epsilon}$ in (\ref{prop1_eqn3}), we get
-\begin{align}\label{prop1_eqn5}
-    \Ddot{X}(t)+(\frac{3}{t}+\sqrt{\epsilon}\nabla f(X(t)))\dot X(t)+\frac{\sqrt{\epsilon}}{t}\nabla f(X(y))=-\nabla f(Y(t)).
-\end{align}
-This, concludes the proof.
-\end{proof}
-According to \cite{WibisonoE7351}, the distance between sequences $x_k$ and $y_k$ in (\ref{rate_match_2}) decreases with rate of order $\sqrt{\epsilon}$. Therefore, if the approximation $X_t\approx Y_t$ is made (due to $\epsilon\rightarrow 0$), (\ref{cont_rate_match_2}) will be equivalent to
-\begin{align}\label{cont_rate_match_2_perturb}
-    \left\{\begin{array}{l}
-         \dot X_t = \frac{2}{t}(Z_t-X_t)-\sqrt{\epsilon}\nabla f(X_t),  \\
-          \dot Z_t = -\frac{t}{2}\nabla f(X_t).
-    \end{array}
-    \right.
-\end{align}
-which is the perturbation of the low-resolution ODE
-\begin{align}\label{cont_rate_match_2_perturb2}
-    \left\{\begin{array}{l}
-         \dot X_t = \frac{2}{t}(Z_t-X_t),  \\
-          \dot Z_t = -\frac{t}{2}\nabla f(X_t).
-    \end{array}
-    \right.
-\end{align}
-Note that (\ref{cont_rate_match_2_perturb2}) is equivalent to (\ref{LR_cnts_form}) for $p=2$. In this sense, rate-matching implicitly perturbs the low-resolution ODE. The question that naturally arises is that when do we recover the high-resolution ODE (\ref{HR_cnts_general_stable_ODE}) from rate-matching technique? To show this, we will first perturb the low-resolution ODE (\ref{cont_rate_match_2_perturb2}) in the second line. Then, the rate-matching discretization is applied. Perturbing (\ref{cont_rate_match_2_perturb2}) gives
-\begin{align}\label{cont_rate_match_2_perturb3}
-    \left\{\begin{array}{l}
-         \dot X_t = \frac{2}{t}(Z_t-X_t),  \\
-          \dot Z_t = -\frac{t}{2}\nabla f(X_t)-\sqrt{\epsilon}\nabla f(X_t).
-    \end{array}
-    \right.
-\end{align}
-Discretizing (\ref{cont_rate_match_2_perturb3}) using the rate-matching method with $t_k=k\sqrt{\epsilon}$ gives\footnote{Here, we did not replace $\nabla f(x_k)$ in the third line with $\nabla f(y_k)$ after discretization (this is the case in \cite{WibisonoE7351}). Also, the same shifting trick as in \cite{WibisonoE7351} ($k\rightarrow k+2$) is done in the update of $x_{k}$.}
-\begin{align}\label{rate_match_3}
-    \left\{\begin{array}{l}
-    x_{k+1}=\frac{2}{k+2}z_k+\frac{k}{k+2}y_k,\\
-    y_{k}=x_k-\epsilon\nabla f(x_k),   \\
-    z_{k}=z_{k-1} -\frac{\epsilon}{2} (k+2)\nabla f(x_{k})  ,
-    \end{array}\right.
-\end{align}
-which is exactly the Nesterov's algorithm. Since (\ref{rate_match_3}) is exactly the NAG method, its high-resolution ODE is (\ref{HR_cnts_general_stable_ODE}). This means that the corresponding high-resolution ODE of (\ref{rate_match_3}) is 
-\begin{align}\label{cont_rate_match_2_perturb4}
-    \left\{\begin{array}{l}
-         \dot X_t = \frac{2}{t}(Z_t-X_t)-\sqrt{\epsilon}\nabla f(X_t),  \\
-          \dot Z_t = -\frac{t}{2}\nabla f(X_t)-\sqrt{\epsilon}\nabla f(X_t).
-    \end{array}
-    \right.
-\end{align}
-which is the perturbed version of (\ref{cont_rate_match_2_perturb3}).
-
-
-\subsection{Stochastic Extentions}
-In this section we will propose a stochastic variation of (\ref{new_algorithm_stochastic}). This method is a direct consequence of (\ref{new_algorithm}). We model noisy gradients by adding i.i.d noise $e_k$ to the gradients, 
-\begin{align}\label{new_algorithm_stochastic}
-   \left\{ \begin{array}{ll}
-    &x_{k+1}   =    x_{k} + \frac{2s_k}{t_k}(v_k-x_{k+1})-\frac{s_k}{\sqrt{L}}(\nabla f(x_k)+e_k),\\
-     &v_{k+1}    = v_k -\tfrac{1}{2}((t_k)s_k)(\nabla f(x_{k+1})+e_{k+1})-s_k^2(\nabla f(x_{k+1})+e_{k+1}). 
-    \end{array}\right.
-\end{align}
-The updates (\ref{new_algorithm_stochastic}) is interesting due to its capability of dealing with perturbed gradients. This is the case in practical methods e.g. SGD \cite{bottou2010large}, SAG \cite{schmidt2017minimizing}, SAGA \cite{defazio2014saga}, SVRG \cite{johnson2013accelerating}, and etc.
-In what follows, we prove the convergence of (\ref{new_algorithm_stochastic}) and show that (\ref{new_algorithm_stochastic}) decreases $\mathbb E\left[\min_{0\leq i\leq k-1}\|\nabla f(x_i)\|^2 \right]$ with a rate of $O(k^{(-3/4)})$ where $O$ hides a factor of $\log(k)$. The latter was missed in \cite{pmlr-v108-laborde20a} \hcm{check the literature and see if we can make a comparison with current rates here}
-\begin{thm}\label{Theorem5}
-    Consider $t_k=\sum_{i=1}^k s_k $ and $s_k=\frac{c}{k^{\alpha}}$ with $c\leq \frac{1}{\sqrt{L}}$ and $\frac{3}{4}\leq\alpha<1$. Then, if the update (\ref{new_algorithm_stochastic}) is used to find $x^*=\arg\min_x f(x)$, we will have
-    \begin{align}\label{conv_rate1_them6}
-    \mathbb E[f(x_k)]-f(x^*)&\leq \left\{\begin{array}{lr}
-         \frac{\mathbb E[\varepsilon (0)]+\frac{c^4\sigma^2}{8}\left[16(1+\log(k))+32+6\right]}{2c^2\left[2(k^{\frac{1}{4}}-1)^2+k^{-\frac{3}{4}}(k^{\frac{1}{4}}-1)\right]} & \quad \alpha=\frac{3}{4} \\
-          \frac{\mathbb E[\varepsilon (0)]+\frac{c^4\sigma^2}{8}\left[\frac{(4\alpha -2)}{(1-\alpha)^2(4\alpha-3)}+\frac{4(4\alpha -1)}{(1-\alpha)(4\alpha -2)}+\frac{4(4\alpha )}{(4\alpha -1)}\right]}{\frac{c^2}{2(1-\alpha)}\left[\frac{(k^{1-\alpha}-1)^2}{2(1-\alpha)}+k^{-\alpha}(k^{(1-\alpha)}-1)\right]}& \quad 1>\alpha>\frac{3}{4}
-    \end{array}\right.,
-\end{align}
-with $\mathbb E[\varepsilon (0)]=\frac{1}{2}\|v_0-x^*\|^2$. In addition, for $\alpha = 3/4$ we have
-\begin{align}\label{conv_rate2_them6}
-    \mathbb E\left[\min_{0\leq i\leq k-1}\|\nabla f(x_i)\|^2 \right] &\leq \frac{2\sqrt{L}\mathbb E[\varepsilon (0)]}{16c^3\left( \frac{k^{3/4}-1}{3} +k^{1/4}-\frac{3}{2}+k^{1/2}\right)}\nonumber\\
-    &+2c\sigma^2\sqrt{L}\frac{2\log (k)+6+\frac{3}{4}}{16\left( \frac{k^{3/4}-1}{3} +k^{1/4}-\frac{3}{2}+k^{1/2}\right)}.
-\end{align}
-\end{thm}
-\begin{rem}
-Note that $c\leq 1/\sqrt{L}$ and therefore, both rates in Theorem \ref{Theorem5} are independent of $L$. 
-\end{rem}
-\begin{proof}
-    Take the Lyapunov function
+\subsection{Proof of Theorem \ref{Theorem5}}\label{thm6_proof}
+Take the Lyapunov function
     \begin{align}\label{Lyap_stochastic}
     \varepsilon(k)= (\frac{t_k^2}{4}+\frac{s_kt_k}{2})(f(x_k)-f(x^*))+\frac{1}{2}\|v_k-x^*\|^2.
     \end{align}
@@ -940,28 +973,8 @@ and therefore,
     &+2c\sigma^2\sqrt{L}\frac{2\log (k)+6+\frac{3}{4}}{16\left( \frac{k^{3/4}-1}{3} +k^{1/4}-\frac{3}{2}+k^{1/2}\right)},
 \end{align}
 with $\mathbb E[\varepsilon(0)]=\tfrac{1}{2}\|x_0-x^*\|^2$.
-\end{proof}
-Note that when the noise is omitted ($\sigma=0$), the parameter $\alpha$ can become zero. This is because we do not have to alleviate the effect of noise with decreasing step-sizes. Therefore, we recover the convergence rate of $O(1/k^2)$ for the NAG method for $c=1/\sqrt{L}$.
-Note that the analysis in \cite{pmlr-v108-laborde20a} cannot achieve the bound proposed in Theorem ? (see \cite{pmlr-v108-laborde20a} Appendix C.4)\par
-If we know the smoothness coefficient $L$, the convergence rate (\ref{conv_rate1_them6}) can be improved. Consider the update
-\begin{align}\label{new_alg_mixed_step}
-    \left\{ \begin{array}{ll}
-    &x_{k+1}   =    x_{k} + \frac{2s_k}{t_k}(v_k-x_{k+1})-\frac{\beta s_k}{\sqrt{L}}(\nabla f(x_k)+e_k),\\
-     &v_{k+1}    = v_k -\tfrac{1}{2}(t_ks_k+\tfrac{2s_k \beta}{\sqrt{L}})(\nabla f(x_{k+1})+e_{k+1})
-    \end{array}\right.
-\end{align}
-with $\beta = \tfrac{-2c^2+3}{4c^2}$. Then, the following convergence result holds.
-\begin{thm}\label{Theorem6}
-    Under the conditions of Theorem \ref{Theorem5} and $\beta = \tfrac{-2c^2+3}{4c^2}$, the update (\ref{new_alg_mixed_step}) will satisfy 
-    \begin{align}\label{conv_rate1_them6}
-    \mathbb E[f(x_k)]-f(x^*)&\leq \left\{\begin{array}{lr}
-         \frac{\mathbb E[\varepsilon (0)]+\frac{\sigma^2}{8}\left[16(1+\log(k))+\frac{\beta(80c^3)}{\sqrt{L}}+\frac{24\beta^2c^2}{L}\right]}{\frac{c^2}{4}\left((k^{\frac{1}{4}}-1)^2\right)+\frac{2c\beta}{\sqrt{L}}\left((k^{\frac{1}{4}}-1)\right)} & \quad \alpha=\frac{3}{4} \\
-          \frac{\mathbb E[\varepsilon (0)]+\frac{\sigma^2}{8}\left[\frac{c^4(4\alpha -2)}{(1-\alpha)^2(4\alpha-3)}+\frac{4\beta c^3(3\alpha -1)}{\sqrt{L}(1-\alpha)(3\alpha -2)}+\frac{4\beta^2c^2(42\alpha )}{L(2\alpha -1)}\right]}{\frac{c^2}{4(1-\alpha)^2}\left((k^{1-\alpha}-1)^2\right)+\frac{c\beta}{2\sqrt{L}(1-\alpha)}\left(k^{(1-\alpha)}-1\right)}& \quad 1>\alpha>\frac{3}{4}
-    \end{array}\right.,
-\end{align}
-\end{thm}
-\begin{proof}
- Take the Lyapunov function
+\subsection{Proof of Theorem \ref{Theorem6}}\label{thm7_proof}
+Take the Lyapunov function
     \begin{align}\label{Lyap_stochastic2}
     \varepsilon(k)= (\frac{t_k^2}{4}+\frac{t_k\beta}{2\sqrt{L}})(f(x_k)-f(x^*))+\frac{1}{2}\|v_k-x^*\|^2.
     \end{align}
@@ -1013,27 +1026,59 @@ with $\beta = \tfrac{-2c^2+3}{4c^2}$. Then, the following convergence result hol
             &+\frac{1}{8}((t_k+\frac{2\beta}{\sqrt{L}})s_k)^2(\|\nabla f(x_{k+1})\|^2+\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle) \nonumber\\
             & -(\frac{t_k^2}{4}+\frac{\beta t_k}{2\sqrt{L}})\langle e_{k+1},x_{k+1}-x_k\rangle-\frac{(t_k+\tfrac{2\beta}{\sqrt{L}})s_k}{2}\langle e_{k+1},x_{k+1}-x^*\rangle\nonumber\\
          & -\frac{\beta t_k(t_k+\frac{2\beta}{\sqrt{L}})s_k}{4\sqrt{L}}\langle \nabla f(x_{k+1})+e_{k+1}, \nabla f(x_k)+e_k \rangle,\nonumber\\
-         &=\frac{1}{2}\left(\frac{t_k}{2}+s_k\right)^2(s_k^2-\frac{1}{L})\|\nabla f(x_{k+1})\|^2\nonumber\\
-         &+\frac{1}{2}\left(\frac{t_k^2}{4}+\frac{s_kt_k}{2} \right)(\frac{1}{L}-\frac{s_k}{\sqrt{L}}) 2\langle \nabla f(x_{k+1}),\nabla f(x_k) \rangle\nonumber\\
-         &-\frac{(\frac{t_{k}^2}{4}+\frac{s_{k}t_{k}}{2})}{2L}\|\nabla f(x_k)\|^2+\frac{1}{8}((t_k+2s_k)s_k)^2(\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle)\nonumber\\
-         & -(\frac{t_k^2}{4}+\frac{s_kt_k}{2})\langle e_{k+1},x_{k+1}-x_k\rangle-\frac{(t_k+2s_k)s_k}{2}\langle e_{k+1},x_{k+1}-x^*\rangle\nonumber\\
-         &-\frac{t_k(t_k+2s_k)s_k}{4\sqrt{L}}\left(\langle \nabla f(x_{k+1}),e_k \rangle+\langle \nabla f(x_{k}) , e_{k+1}\rangle+\langle e_{k+1},e_k\rangle\right).
+         &=\left( \frac{(t_k+\frac{2\beta}{\sqrt{L}})s_k)^2}{8}- \frac{(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})}{2L}- \frac{(t_k+2\frac{\beta}{\sqrt{L}})s_k}{4L}\right)\|\nabla f(x_{k+1})\|^2\nonumber\\
+         &+\frac{1}{2}\left(\frac{t_k^2}{4}+\frac{\beta t_k}{2\sqrt{L}} \right)(\frac{1}{L}-\frac{\beta s_k}{\sqrt{L}}) 2\langle \nabla f(x_{k+1}),\nabla f(x_k) \rangle\nonumber\\
+         &-\frac{(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})}{2L}\|\nabla f(x_k)\|^2+\frac{((t_k+\frac{2\beta}{\sqrt{L}})s_k)^2}{8}(\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle)\nonumber\\
+         & -(\frac{t_k^2}{4}+\frac{\beta t_k}{2\sqrt{L}})\langle e_{k+1},x_{k+1}-x_k\rangle-\frac{(t_k+\tfrac{2\beta}{\sqrt{L}})s_k}{2}\langle e_{k+1},x_{k+1}-x^*\rangle\nonumber\\
+         &-\frac{\beta t_k(t_k+\frac{2\beta}{\sqrt{L}})s_k}{4\sqrt{L}}\left(\langle \nabla f(x_{k+1}),e_k \rangle+\langle \nabla f(x_{k}) , e_{k+1}\rangle+\langle e_{k+1},e_k\rangle\right).
         \end{align}
-
-    
-\end{proof}
-
-
-
-
-
-
-\section{Numerical Results}\label{sec_numerical}
-In this section we will investigate the performance of (\ref{new_algorithm_stochastic}) for various 
-\section{Conclusion}\label{sec_conclusion}
-\bibliographystyle{plainnat}
-\bibliography{references}
-
-
+        \begin{lem}\label{lem1}
+            Consider $t_k=\sum_{i=0}^k s_i$ and $s_i=\frac{c}{i^{\alpha}}$ with $0<\alpha<1$ and $c\leq 1/\sqrt{L}$. For any $\beta\geq 1$ there exists $k_0$ such that 
+            \begin{align}\label{lem1_eqn1}
+                \left( \frac{(t_k+\frac{2\beta}{\sqrt{L}})s_k)^2}{8}- \frac{(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})}{2L}- \frac{(t_k+2\frac{\beta}{\sqrt{L}})s_k}{4L}\right)\leq -\left|\frac{1}{2}\left(\frac{t_k^2}{4}+\frac{\beta t_k}{2\sqrt{L}} \right)(\frac{1}{L}-\frac{\beta s_k}{\sqrt{L}})\right|
+            \end{align}
+        \end{lem}
+        \begin{proof}\label{lem1_proof}
+            Without loss of generality, consider $\frac{1}{L}-\frac{\beta s_k}{\sqrt{L}}\geq 0$. Then, after simplification of (\ref{lem1_eqn1}) we have
+            \begin{align}\label{lem1_eqn2}
+                &\frac{(t_k+\frac{2\beta}{\sqrt{L}})s_k)^2}{8}- \frac{(t_k+2\frac{\beta}{\sqrt{L}})s_k}{4L}-\frac{1}{2}\left(\frac{t_k^2}{4}+\frac{\beta t_k}{2\sqrt{L}} \right)(\frac{\beta s_k}{\sqrt{L}})\leq 0\nonumber\\
+                & \frac{t_k^2s_k}{8}(s_k-\frac{\beta}{\sqrt{L}})+\frac{t_k \beta s_k}{2\sqrt{L}}(s_k-\frac{\beta}{2\sqrt{L}})+\frac{\beta s_k}{2 L}(\beta s_k-\frac{1}{\sqrt{L}})-\frac{t_k s_k}{4L}\leq 0
+            \end{align}
+            which holds as long as $\frac{2}{k^{\alpha}}\leq \beta \leq k^{\alpha}$. Note that for any choice of $\beta$ there exists $k_0$ such that $\beta\leq k_0^{\alpha}$.
+        \end{proof}
+Next, using Lemma \ref{lem1} in (\ref{Lyap2_stc_6}) gives 
+\begin{align}\label{Lyap2_stc_7}
+    \varepsilon(k+1)-\varepsilon(k)&\leq \frac{((t_k+\frac{2\beta}{\sqrt{L}})s_k)^2}{8}(\|e_{k+1}\|^2+2\langle \nabla f(x_{k+1}) ,e_k \rangle)\nonumber\\
+         & -(\frac{t_k^2}{4}+\frac{\beta t_k}{2\sqrt{L}})\langle e_{k+1},x_{k+1}-x_k\rangle-\frac{(t_k+\tfrac{2\beta}{\sqrt{L}})s_k}{2}\langle e_{k+1},x_{k+1}-x^*\rangle\nonumber\\
+         &-\frac{\beta t_k(t_k+\frac{2\beta}{\sqrt{L}})s_k}{4\sqrt{L}}\left(\langle \nabla f(x_{k+1}),e_k \rangle+\langle \nabla f(x_{k}) , e_{k+1}\rangle+\langle e_{k+1},e_k\rangle\right).
+\end{align}
+    By evaluating the expectation of (\ref{Lyap2_stc_7}) we have
+    \begin{align}\label{Lyap2_stc_8}
+        \mathbb{E}\left[\varepsilon(k)-\varepsilon(k-1)\right]\leq \frac{((t_k+\frac{2\beta}{\sqrt{L}})s_k)^2}{8}\sigma^2.
+    \end{align}
+    Summing both sides from $k_0$ to $k$ gives
+    \begin{align}\label{Lyap2_stc_9}
+        \mathbb E[\varepsilon(k)]\leq \mathbb E[\varepsilon(k_0)]+\sum_{i=k_0+1}^{k}\frac{((t_i+\frac{2\beta}{\sqrt{L}})s_i)^2}{8}\sigma^2
+    \end{align}
+    As in (\ref{Lyap_stc_12},\ref{Lyap_stc_13},\ref{Lyap_stc_14}), one can bound (\ref{Lyap2_stc_9}) as
+    \begin{align}\label{Lyap2_stc_10}
+        \mathbb E[\varepsilon(k)]&\leq \mathbb E[\varepsilon(k_0)]+\frac{\sigma^2 c^4}{(1-\alpha)^2} \left[ k_0^{3-4\alpha}-k^{3-4\alpha} \right] + \frac{\sigma^2c^3\beta}{2\sqrt{L}(1-\alpha)(3\alpha -2)}\left[ k_0^{2-3\alpha}-k^{2-3\alpha} \right]\nonumber\\
+        &+\frac{\beta^2c^2\sigma^2}{2L(2\alpha-1)}\left[ k_0^{1-2\alpha}-k^{1-2\alpha} \right]
+    \end{align}
+    for $\alpha > 3/4$ and
+    \begin{align}\label{Lyap2_stc_11}
+        \mathbb E[\varepsilon(k)]\leq \mathbb E[\varepsilon(k_0)]+2\sigma^2 c^4 \left[ \log(\frac{k}{k_0}) \right] + \frac{8\sigma^2c^3\beta}{\sqrt{L}}\left[ k_0^{-\tfrac{1}{4}}-k^{-\tfrac{1}{4}} \right]
+        +\frac{\beta^2c^2\sigma^2}{L}\left[ k_0^{-\tfrac{1}{2}}-k^{-\tfrac{1}{2}} \right]
+    \end{align}
+    for $\alpha=3/4$. Therefore,
+    \begin{align}\label{Lyap2_stc_12}
+        \mathbb E[f(x_k)]-f(x^*)\leq \tfrac{\mathbb E[\varepsilon(k_0)]+\frac{\sigma^2 c^4}{(1-\alpha)^2} \left[ k_0^{3-4\alpha}-k^{3-4\alpha} \right] + \frac{\sigma^2c^3\beta}{2\sqrt{L}(1-\alpha)(3\alpha -2)}\left[ k_0^{2-3\alpha}-k^{2-3\alpha} \right]+\frac{\beta^2c^2\sigma^2}{2L(2\alpha-1)}\left[ k_0^{1-2\alpha}-k^{1-2\alpha} \right]}{\frac{c^2}{4(1-\alpha)^2}\left((k^{1-\alpha}-1)^2\right)+\frac{c\beta}{2\sqrt{L}(1-\alpha)}\left(k^{(1-\alpha)}-1\right)}
+    \end{align}
+    for $\alpha > 3/4$ and
+    \begin{align}\label{Lyap2_stc_13}
+        \mathbb E[f(x_k)]-f(x^*)\leq \tfrac{\mathbb E[\varepsilon(k_0)]+2\sigma^2 c^4 \left[ \log(\frac{k}{k_0}) \right] + \frac{8\sigma^2c^3\beta}{\sqrt{L}}\left[ k_0^{-1/4}-k^{-1/4} \right]
+        +\frac{\beta^2c^2\sigma^2}{L}\left[ k_0^{-1/2}-k^{-1/2} \right]}{4c^2\left((k^{1/4}-1)^2\right)+\frac{2c\beta}{\sqrt{L}}\left(k^{1/4}-1\right)}
+    \end{align}
+    for $\alpha=3/4$.
 
 \end{document}
