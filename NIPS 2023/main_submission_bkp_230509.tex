@@ -72,15 +72,6 @@
 \newtheorem{remark}{Remark}[theorem]
 \algrenewcommand\algorithmicrequire{\textbf{Precondition:}}  
 \algrenewcommand\algorithmicensure{\textbf{Postcondition:}}
-\usepackage[normalem]{ulem}
-\newcommand{\aynote}[1]{\textcolor{red}{[\textbf{Note:} #1]}}
-\newcommand{\remove}[1]{\textcolor{red}{[\textbf{Remove:} #1]}}
-\newcommand{\replace}[2]{\textcolor{red}{[\textbf{Replace:} \sout{#1} \textcolor{blue}{#2}]}}
-% \newcommand{\add}[1]{\textcolor{blue}{#1}}
-% \usepackage{hyperref}
-\usepackage{cleveref}
-
-
 \title{A Variational Perspective on High-Resolution ODEs}
 
 
@@ -132,53 +123,33 @@
 
 
 \begin{abstract}
-We consider unconstrained minimization of smooth convex functions. We propose a novel variational perspective using forced Euler-Lagrange equation that allows for studying high-resolution ODEs. Through this, we obtain a faster convergence rate for gradient norm minimization using Nesterov's accelerated gradient method. Additionally, We show that Nesterov's method can be approximately understood as a rate-matching discretization of an appropriately chosen high-resolution ODE. Finally, using the results from the new variational perspective, we propose a stochastic method for noisy gradients. 
+We consider unconstrained minimization of smooth convex functions. We propose a novel variational perspective using forced Euler-Lagrange equation that allows for studying high-resolution ODEs. Through this, we obtian a faster convergence rate for gradient norm minimization using Nesterov's accelerated gradient method. Additionally, We show that rate-matching discretization technique implicitly perturbs. Furthermore, we propose a stochastic method for noisy gradients. 
 \end{abstract}
 
 
 \section{Introduction}
 
-% Consider the following unconstrained minimization problem
-Consider a generic unconstrained smooth convex minimization problem:
+Optimization algorithms play an important role in big data analysis and machine learning. Due to huge load of data, accelerated methods in optimization are important and necessary to study \citep{Shi2021UnderstandingTA,JMLR:v17:15-084,wilson2021lyapunov,Lessard2016AnalysisAD}. \par
+Consider the following unconstrained minimization problem
 \begin{align}\label{problem}
     \min_{x\in \mathbb{R}^n} f(x)
 \end{align}
-% where $f:\mathbb{R}^n\rightarrow \mathbb{R}$ and \(f\in\mathcal{F}_{L}\) where \(\mathcal{F}_{L}\) denotes the class of \(L\)-smooth and convex functions on \(\mathbb{R}^n\) i.e.,
-% \begin{align}\label{cvx-smthness}
-%  f(x)-f(y)\leq \langle \nabla f(x),x-y \rangle,\quad \|\nabla f(x_k)-\nabla f(y_k)\|\leq L \|x-y\|,
-% \end{align}
-where the function $f:\mathbb{R}^n\rightarrow \mathbb{R}$ is convex and $L$-smooth, meaning that its gradient is Lipschitz continuous, \emph{i.e.,}
+
+where $f:\mathbb{R}^n\rightarrow \mathbb{R}$ and \(f\in\mathcal{F}_{L}\) where \(\mathcal{F}_{L}\) denotes the class of \(L\)-smooth and convex functions on \(\mathbb{R}^n\) i.e.,
 \begin{align}\label{cvx-smthness}
-\|\nabla f(x)-\nabla f(y)\|\leq L \|x-y\|, \quad \forall x, y \in \mathbb{R}^n,
+ f(x)-f(y)\leq \langle \nabla f(x),x-y \rangle,\quad \|\nabla f(x_k)-\nabla f(y_k)\|\leq L \|x-y\|,
 \end{align}
-with $\|\cdot\|$ denoting Euclidean norm. 
-Throughout, we assume that the solution set for Problem~\eqref{problem} is non-empty, and we denote an arbitrary solution by $x^*$, hence $f^* := f(x^*) \leq f(x)$ for all $x \in \mathbb{R}^n$. 
-
-% \aynote{We need a \textbf{short} paragraph here, explaining the importance of this template.}
-Smooth convex minimization is a fundamental subclass of optimization problems favorable due to its wide applicability in many areas (some notable applications include \aynote{we add 3-4 examples here}multivariate linear regression \citep{lu2012convex}, image processing \citep{iPiasco}, compressed sensing \citep{bobin2009fast}, and matrix completion \citep{zhang2011strongly}) and a rich theoretical foundation enabling the development of powerful optimization methods. In fact, much of the theory and methods for other problem classes like non-smooth convex or smooth non-convex optimization are developed by building upon the work done in smooth convex optimization.
-
-First-order methods (\emph{i.e.,} methods that only use gradient information; unlike, for instance, Newton’s method that also requires Hessian information) have seen a lot of interest in the last two decades both in theory and applications due to their efficiency and adaptability for large-scale data-driven applications. One of the oldest and the simplest first-order methods in the literature for solving Problem~\eqref{problem} is the Gradient Descent (GD), which is known to ensure a suboptimality gap $f(x_k) - f^*$ of order $\mathcal{O}(1/k)$ after $k$ iterations with a suitable step-size.
-
-\aynote{We mention the convergence rate of Gradient Descent. Then we should explain that the rate of Gradient Descent does not match the iteration complexity lower bounds, hence GD is not optimal.}
-
-\aynote{Then describe Nesterov's Accelerated Gradient Method as the first first-order method with optimal convergence rate.} 
-Nesterov's Accelerated Gradient method (NAG) \aynote{Which acronym is more common, NAG or AGM?Hoomaan :NAG is more common I think. AGM also referes to another method by Adrien Taylor \& A. d'Aspermont} was among the first accelerated\footnote{Here, acceleration is w.r.t the convergence rate of the Gradient Descent (GD) method.} globally convergent algorithms to solve (\ref{problem}) \citep{Nesterov1983AMF}. 
-Given an initial state $x_0 = y_0 \in \mathbb{R}^n$ and a step-size parameter $s \in [0, 1/L]$, NAG iteratively updates the variables $x_k$ and $y_k$ as follows:
-\begin{equation}\label{eqn_Nest_alg}
-\begin{aligned}
-    y_{k+1}&=x_k -s\nabla f(x_k) \\
-    x_{k+1}&= y_{k+1}+\frac{k}{k+3} (y_{k+1}-y_{k})
-\end{aligned}
-\end{equation}
-% with \(x_0=y_0\in\mathbb R^n\) and \(0< s\leq 1/L\).
-NAG achieves the first order oracle complexity lower bound with a convergence rate of \(f(x_k)-f(x^*)=\mathcal O (1/(sk^2))\) \citep{nesterov2003introductory}. Nesterov used \textit{estimate sequence} technique to prove the convergence of NAG. Due to the complexity of this technique, the essence of acceleration remained a mystery \citep{hu2017dissipativity}\aynote{This is rather a subjective comment so it will be good if we can cite a work here to support our claim Hoomaan: aded one citation}. Many have tried to provide a better understanding of momentum-based acceleration through different perspectives. For example, \citet{JMLR:v17:15-084,shi2019acceleration,Shi2021UnderstandingTA,sanz2021connections} consider a continuous-time perspective; \citet{Lessard2016AnalysisAD,doi:10.1137/17M1136845} use integral quadratic constraints and control systems with non-linear feedbacks; \citet{muehlebach2019dynamical,muehlebach2022constraints,muehlebach2023accelerated} present a dynamical perspective; and \citet{attouch2020first,attouch2021convergence} utilize inertial dynamic involving both viscous damping and Hessian-driven damping. 
-
-\paragraph{Continuous-time perspective} 
-Analysing NAG at the limit of an infinitesimal step-size $s \to 0$ exhibits similar trajectories as Ordinary Differential Equations (ODEs) \citep{JMLR:v17:15-084}. This has inspired many to analyse various ODEs and discretization schemes to understand acceleration phenomenon. \citet{WibisonoE7351} showed that the recent ODE is a special case of a family of ODEs which were not confined to Euclidean space. They proved their claim through minimizing the action on a Lagrangian which could capture the properties of \eqref{problem}. This is known as the \textit{variational perspective}. \aynote{What is the difference between Wibisono and Wilson? Hoomaan: Wilson uses a different Lagrangian which fits the strongly convex functions. Here, I think it is better to remove Wilson's citation since it seems to be unrelated to mention that they did the same thing for different class of functions}  They then discretized their general ODE through \textit{rate-matching} technique. On the same line of work, \citet{Shi2021UnderstandingTA} proposed High-Resolution ODEs (HR-ODEs) (opposed to the Low-Resolution ODEs (LR-ODEs) in \citep{JMLR:v17:15-084}) which could follow NAG's trajectory more accurately than LR-ODEs. The remaining question which is mainly discussed in this work is
+where \(\|\cdot\|\) denotes the Euclidean norm. Nesterov's Accelerated Gradient (NAG) method was among the first accelerated\footnote{Here, acceleration is w.r.t the convergence rate of the Gradient Descent (GD) method.} globally convergent algorithms to solve (\ref{problem}) \citep{Nesterov1983AMF},
+ \begin{align}\label{eqn_Nest_alg}
+    y_{k+1}&=x_k -s\nabla f(x_k),\\
+    x_{k+1}&= y_{k+1}+\frac{k}{k+3} (y_{k+1}-y_{k}),\nonumber
+\end{align}
+with \(x_0=y_0\in\mathbb R^n\) and \(0< s\leq 1/L\). The NAG method achieves the first order oracle complexity lower bound with a convergence rate of \(f(x_k)-f(x^*)=\mathcal O (1/(sk^2))\) \citep{nesterov2003introductory}. Nesterov used \textit{estimate sequence} technique to prove the convergence of the NAG method. Due to the complexity of this technique, the essence of acceleration remained a mystery. Many have tried to provide a better understanding of momentum-based acceleration (like the one in (\ref{eqn_Nest_alg})) through different perspectives. For example, \citep{JMLR:v17:15-084,shi2019acceleration,Shi2021UnderstandingTA,sanz2021connections}, consider a continuous-time perspective, \citep{Lessard2016AnalysisAD,doi:10.1137/17M1136845} use integral quadratic constraints and control systems with non-linear feedbacks, \citep{muehlebach2019dynamical,muehlebach2022constraints,muehlebach2023accelerated} presents a dynamical perspective, and \citep{attouch2020first,attouch2021convergence} utilize inertial dynamic involving both viscous damping and Hessian-driven damping. 
+\paragraph{Continuous-time perspective}Analysing the NAG when \(s\rightarrow 0\), exhibits similar trajectories as Ordinary Differential Equations (ODEs) \citep{JMLR:v17:15-084}. This has inspired many to analyse various ODEs and discretization schemes to understand acceleration phenomenon. \citep{WibisonoE7351,wilson2021lyapunov} showed that the recent ODE is a special case of a family of ODEs which were not confined to Euclidean space. They proved their claim through minimizing the action on a Lagrangian which could capture the properties of (\ref{problem}). This is known as the \textit{variational perspective}. They then discretized their general ODE through \textit{rate-matching} technique. On the same line of work, \citep{Shi2021UnderstandingTA} proposed High-Resolution ODEs (HR-ODEs) (opposed to Low-Resolution ODEs (LR-ODEs) by \citep{JMLR:v17:15-084}) which could follow the NAG's trajectory more accurately than LR-ODEs. The remaining question which is mainly discussed in this work is
 \begin{center}
    \textit{Is it possible to explain HR-ODEs through variational perspective? If yes, what benefits does this explanation have?} 
 \end{center}
-\paragraph{Our contribution} We will positively respond to the first part of the question in Section \ref{section2}. This is done by incorporating external forces while minimizing the action on the Lagrangian. We will show that same force with various damping parameters recovers various HR-ODEs. Our variational analysis leads to a special representation of NAG in section \ref{section3} which allows for better convergence rates for gradient norm minimization of NAG than \citep{shi2019acceleration}. In Section \ref{section4}, we propose the HR-ODE of the rate-matching technique and show that this technique implicitly perturbs an LR-ODE. Finally, we extend our analysis to practical scenarios by considering noisy gradients in Section \ref{section5}. Specifically, we will show a convergence rate of \(\mathcal O(\log(k)/\sqrt{k})\) for function \(f\in\mathcal{F}_L\) and \(\mathcal{O}(\log(k)/k^{3/4})\) for \(\mathbb E\left[\min_{0\leq i\leq k-1}\|\nabla f(x_i)\|^2 \right]\). Several numerical simulations in Section \ref{sec_numerical} approve and compare our findings with state of the art.
+\paragraph{Our contribution} We will positively respond to the first part of the question in Section \ref{section2}. This is done by incorporating external forces while minimizing the action on the Lagrangian. We will show that same force with various damping parameters recovers various HR-ODEs. Our variational analysis leads to a special representation of the NAG method in section \ref{section3} which allows for better convergence rates for gradient norm minimization of the NAG method than \citep{shi2019acceleration}. In Section \ref{section4}, we propose the HR-ODE of the rate-matching technique and show that this technique implicitly perturbs an LR-ODE. Finally, we extend our analysis to practical scenarios by considering noisy gradients in Section \ref{section5}. Specifically, we will show a convergence rate of \(\mathcal O(\log(k)/\sqrt{k})\) for function \(f\in\mathcal{F}_L\) and \(\mathcal{O}(\log(k)/k^{3/4})\) for \(\mathbb E\left[\min_{0\leq i\leq k-1}\|\nabla f(x_i)\|^2 \right]\). Several numerical simulations in Section \ref{sec_numerical} approve and compare our findings with state of the art.
 
  
 \section{External Forces and High-Resolution ODEs}\label{section2}
@@ -231,7 +202,7 @@ which reduces to
 \end{align}
 by taking $n(t)=\frac{p}{t},q(t)=Cpt^{p-1}$. This is a more general form of the high-resolution ODE found in \citep{pmlr-v108-laborde20a}. 
 \begin{remark}
-For \(p=2,C=1/4\), (\ref{HR_cnts_general_npq2}) reduces to NAG using Explicit Euler (EE) discretization with gradient calculated at an updated point \citep{pmlr-v108-laborde20a}.
+For \(p=2,C=1/4\), (\ref{HR_cnts_general_npq2}) reduces to the NAG method using Explicit Euler (EE) discretization with gradient calculated at an updated point \citep{pmlr-v108-laborde20a}.
 \end{remark}
 
      \( \boldsymbol{F = -\sqrt{s}e^{\gamma_t-\beta_t}\frac{d}{dt}\left[e^{-(\alpha_t-\beta_t)}\nabla f(X_t)\right]}:\)
@@ -342,20 +313,20 @@ has the same HR-ODE as (\ref{HR_cnts_general_npq2}). Note that (\ref{LR_cnts_for
 \begin{align}\label{rate_match_2}
     \left\{\begin{array}{l}
     x_{k+1}=\frac{2}{k+2}z_k+\frac{k}{k+2}y_k,\\
-    y_{k}=x_k-\frac{s}{N}\nabla f(x_k),   \\
-    z_{k}=z_{k-1} -2Cs k\nabla f(y_k)  .    
+    y_{k}=x_k-\frac{\sqrt{s}}{N}\nabla f(x_k),   \\
+    z_{k}=z_{k-1} -2C\sqrt{s} k\nabla f(y_k)  .    
     \end{array}\right.
 \end{align}
-which has a convergence rate of \(\mathcal{O}(1/\sqrt{s} k^2)\). The update (\ref{rate_match_2}) is not the same as NAG, but it has the same order of convergence and thus, important to study. On top of that, it was derived from the low-resolution ODE (\ref{LR_cnts_form}) for \(p=2,C=1/4\) and its convergence proof is based on a generalization of the estimate sequence technique \citep{baes2009estimate}. It remains an open question to understand the connection between (\ref{rate_match_2}) (which is the result of the rate-matching technique) and NAG. \par
+which has a convergence rate of \(\mathcal{O}(1/\sqrt{s} k^2)\). The update (\ref{rate_match_2}) is not the same as the NAG method, but it has the same order of convergence and thus, important to study. On top of that, it was derived from the low-resolution ODE (\ref{LR_cnts_form}) for \(p=2,C=1/4\) and its convergence proof is based on a generalization of the estimate sequence technique \citep{baes2009estimate}. It remains an open question to understand the connection between (\ref{rate_match_2}) (which is the result of the rate-matching technique) and the NAG method. \par
  We begin by investigating the behaviour of (\ref{rate_match_2}) in limit of \(\sqrt{s} \rightarrow 0\) in the following proposition. The proof is given in Appendix \ref{proof_prop1}
 \begin{proposition}\label{prop1}
 The continuous-time behaviour of (\ref{rate_match_2}) with \(C=1/4,N=1\) is
 \begin{align}\label{cont_rate_match_2}
-    \Ddot{X}_t+(\frac{3}{t}+\sqrt{s}\nabla f(X_t))\dot X_t+(1+\frac{\sqrt{s}}{t})\nabla f(X_t)=0,
+    \Ddot{X}_t+(\frac{3}{t}+\sqrt{s}\nabla f(X_t))\dot X_t+\frac{\sqrt{s}}{t}\nabla f(X_t)=-\nabla f(Y_t).
 \end{align}
-which is the the high-resolution ODE (\ref{HR_cnts_general_npq2}).
+If in addition, one approximates \(Y_t\approx X_t\), then the high-resolution ODE (\ref{HR_cnts_general_npq2}) is achieved.
 \end{proposition}
-The ODE (\ref{cont_rate_match_2}) is equivalent to
+The distance between sequences \(x_k\) and \(y_k\) in (\ref{rate_match_2}) decreases with rate of order \(\sqrt{s}\). Therefore, if the approximation \(X_t\approx Y_t\) is made (due to \(\sqrt{s}\rightarrow 0\)), (\ref{cont_rate_match_2}) will be equivalent to
 \begin{align}\label{cont_rate_match_2_perturb}
     \left\{\begin{array}{l}
          \dot X_t = \frac{2}{t}(Z_t-X_t)-\sqrt{s}\nabla f(X_t),  \\
@@ -379,15 +350,15 @@ Note that (\ref{cont_rate_match_2_perturb2}) is equivalent to (\ref{LR_cnts_form
     \end{array}
     \right.
 \end{align}
-Discretizing (\ref{cont_rate_match_2_perturb3}) using the rate-matching method with \(t_k=k\sqrt{s}\) gives
+Discretizing (\ref{cont_rate_match_2_perturb3}) using the rate-matching method with \(t_k=k\sqrt{s}\) gives\footnote{Here, we did not replace \(\nabla f(x_k)\) in the third line with \(\nabla f(y_k)\) after discretization (this is the case in \citep{WibisonoE7351}). Also, the same shifting trick as in \citep{WibisonoE7351} (\(k\rightarrow k+2\)) is done in the update of \(x_{k}\).}
 \begin{align}\label{rate_match_3}
     \left\{\begin{array}{l}
     x_{k+1}=\frac{2}{k+2}z_k+\frac{k}{k+2}y_k,\\
-    y_{k}=x_k-s\nabla f(x_k),   \\
-    z_{k}=z_{k-1} -\frac{s}{2} (k+2)\nabla f(y_{k})  ,
+    y_{k}=x_k-\sqrt{s}\nabla f(x_k),   \\
+    z_{k}=z_{k-1} -\frac{\sqrt{s}}{2} (k+2)\nabla f(x_{k})  ,
     \end{array}\right.
 \end{align}
-which is extremely close to the Nesterov's algorithm. Indeed, replacing \(\nabla f(y_k)\) with \(\nabla f(x_k)\) in the third line of (\ref{rate_match_3}) gives exactly the NAG method. Typically, \(x_k\) and \(y_k\) are very close. This is due to \(x_k\) and \(y_k\) having a difference of order \(s\). Since in continuous time \(X(t_k)\approx Y(t_k)\) (due to \(\sqrt{s}\rightarrow 0\)), the HR-ODE of (\ref{rate_match_3}) is (\ref{HR_cnts_general_stable_ODE}). This means that the corresponding HR-ODE of (\ref{rate_match_3}) is 
+which is exactly the Nesterov's algorithm. Since (\ref{rate_match_3}) is exactly the NAG method, its high-resolution ODE is (\ref{HR_cnts_general_stable_ODE}). This means that the corresponding high-resolution ODE of (\ref{rate_match_3}) is 
 \begin{align}\label{cont_rate_match_2_perturb4}
     \left\{\begin{array}{l}
          \dot X_t = \frac{2}{t}(Z_t-X_t)-\sqrt{s}\nabla f(X_t),  \\
@@ -424,10 +395,10 @@ with $\mathbb E[\varepsilon (0)]=\frac{1}{2}\|v_0-x^*\|^2$. In addition, for $\a
 Note that $c\leq 1/\sqrt{L}$ and therefore, both rates in Theorem \ref{Theorem5} are independent of $L$. 
 \end{remark}
 \begin{remark}[Connection to the NAG]
-    Note that when the noise is omitted ($\sigma=0$), the parameter $\alpha$ can become zero. This is because we do not have to alleviate the effect of noise with decreasing step-sizes. Therefore, we recover the convergence rate of $O(1/k^2)$ for NAG for $c=1/\sqrt{L}$.
+    Note that when the noise is omitted ($\sigma=0$), the parameter $\alpha$ can become zero. This is because we do not have to alleviate the effect of noise with decreasing step-sizes. Therefore, we recover the convergence rate of $O(1/k^2)$ for the NAG method for $c=1/\sqrt{L}$.
 \end{remark}
 \begin{remark}[Comparison with \citep{pmlr-v108-laborde20a}]
-    \citep{pmlr-v108-laborde20a} proposed a stochastic method with noisy gradients. Their method uses another presentation of NAG (the presentation from EE discretization). Our rate (\ref{conv_rate1_them6}) has the same order of convergence as \citep{pmlr-v108-laborde20a}. However, their analysis cannot achieve the bound (\ref{conv_rate2_them6}) (see \citep{pmlr-v108-laborde20a} Appendix C.4).
+    \citep{pmlr-v108-laborde20a} proposed a stochastic method with noisy gradients. Their method uses another presentation of the NAG method (the presentation from EE discretization). Our rate (\ref{conv_rate1_them6}) has the same order of convergence as \citep{pmlr-v108-laborde20a}. However, their analysis cannot achieve the bound (\ref{conv_rate2_them6}) (see \citep{pmlr-v108-laborde20a} Appendix C.4).
 \end{remark}
 If we know (or approximate) the Lipschitz constant $L$ , the convergence rate (\ref{conv_rate1_them6}) is improvable. Consider the update
 \begin{align}\label{new_alg_mixed_step}
@@ -551,14 +522,14 @@ xlabel = {Epoch} , ylabel= {Validation Accuracy} ,  label style={font=\Large}, l
 \end{figure}
 
 \section{Related Work}\label{sec_relwork}
-Polyak's Heavy-Ball (HB) method was on of the first momentum-based methods which could accelerate relative to the gradient descent method \citep{Polyak1963GradientMF}. The HB method can converge globally with a rate of $\mathcal{O}(1/k)$ for every smooth convex function \citep{7330562}. However, this is not the case for every smooth strongly convex function \citep{Lessard2016AnalysisAD}. Nesterov modified the HB and introduced NAG. This method achieved global convergence with a rate of $\mathcal{O}(1/k^2)$ for smooth convex functions \citep{Nesterov1983AMF}. Nesterov used estimate sequence technique to show the convergence of NAG. This technique does not provide immediate insights toward the success of the NAG algorithm in acceleration. Thus, many have tried different approaches to understand the essence of acceleration. \par
-\citep{JMLR:v17:15-084} proposed a continuous-time perspective on NAG. They analysed the method by letting the step-size to zero. The result of their analysis was a second-order ODE. This ODE remains the same if you repeat the analysis for the HB method. Therefore, the continuous-time analysis needed more accurate formulation. \citep{Shi2021UnderstandingTA} did the same analysis with higher accuracy which resulted in high-resolution ODEs. These ODEs were different for the HB and NAGs \citep{shi2019acceleration}. Extensions of this work are found in \citep{chen2022gradient,chen2022accelerating}. In \citep{chen2022gradient}, the authors use the phase-space representation of NAG and improve the previously found gradient norm minimization convergence rate in \citep{Shi2021UnderstandingTA}. After finishing this work, the authors found that the mentioned rate is almost the same as the rate found in this work. However, here the phase-space representation of NAG is not used. \par 
+Polyak's Heavy-Ball (HB) method was on of the first momentum-based methods which could accelerate relative to the gradient descent method \citep{Polyak1963GradientMF}. The HB method can converge globally with a rate of $\mathcal{O}(1/k)$ for every smooth convex function \citep{7330562}. However, this is not the case for every smooth strongly convex function \citep{Lessard2016AnalysisAD}. Nesterov modified the HB and introduced the NAG method. This method achieved global convergence with a rate of $\mathcal{O}(1/k^2)$ for smooth convex functions \citep{Nesterov1983AMF}. Nesterov used estimate sequence technique to show the convergence of the NAG method. This technique does not provide immediate insights toward the success of the NAG algorithm in acceleration. Thus, many have tried different approaches to understand the essence of acceleration. \par
+\citep{JMLR:v17:15-084} proposed a continuous-time perspective on the NAG method. They analysed the method by letting the step-size to zero. The result of their analysis was a second-order ODE. This ODE remains the same if you repeat the analysis for the HB method. Therefore, the continuous-time analysis needed more accurate formulation. \citep{Shi2021UnderstandingTA} did the same analysis with higher accuracy which resulted in high-resolution ODEs. These ODEs were different for the HB and the NAG methods \citep{shi2019acceleration}. Extensions of this work are found in \citep{chen2022gradient,chen2022accelerating}. In \citep{chen2022gradient}, the authors use the phase-space representation of the NAG method and improve the previously found gradient norm minimization convergence rate in \citep{Shi2021UnderstandingTA}. After finishing this work, the authors found that the mentioned rate is almost the same as the rate found in this work. However, here the phase-space representation of the NAG method is not used. \par 
 On similar line of work to continuous-time analysis, \citep{WibisonoE7351} introduced a variational perspective on accelerated methods. This led to a general (non-Euclidean) ODE which contained the ODE found by \citep{JMLR:v17:15-084} as a special case. Their work was based on the choice of a Lagrangian and its corresponding parameters. Since the choice of Lagrangian was not unique, \citep{wilson2021lyapunov} provided a variational perspective on different accelerated first-order methods using a second Lagrangian. \citep{7963773} found a family of accelerated dual algorithms for constrained convex minimization problem through similar variational approach. Recently, \citep{zhang2021rethinking} showed that the second-variation also plays an important role in optimality of the ODE found by \citep{JMLR:v17:15-084}. Specifically, they showed that if the time duration is long enough, then the mentioned ODE for the NAG algorithm is the saddle point to the action functional. \par
-The dynamical system perspective on NAG was studied in \citep{muehlebach2019dynamical}. They showed that NAG is recovered from SIE discretization of an ODE. The mentioned ODE was not the result of a vanishing step-size argument. They found that a curvature-dependent damping term accounts for the acceleration phenomenon. Interestingly, \citep{chen2022gradient} also used similar ODE without the SIE discretization. They showed that implicit-velocity is the reason of the acceleration. In a recent analysis, \citep{muehlebach2023accelerated} explores the connections between non-smooth dynamical systems and first-order methods for constrained optimization.
+The dynamical system perspective on the NAG method was studied in \citep{muehlebach2019dynamical}. They showed that the NAG method is recovered from SIE discretization of an ODE. The mentioned ODE was not the result of a vanishing step-size argument. They found that a curvature-dependent damping term accounts for the acceleration phenomenon. Interestingly, \citep{chen2022gradient} also used similar ODE without the SIE discretization. They showed that implicit-velocity is the reason of the acceleration. In a recent analysis, \citep{muehlebach2023accelerated} explores the connections between non-smooth dynamical systems and first-order methods for constrained optimization.
 
 \section{Conclusion}\label{sec_conclusion}
-In this work, we considered unconstrained smooth convex minimization problem in the Euclidean space. Through a variational analysis on HR-ODEs, better convergence rate for the gradient norm minimization of NAG was achieved. In addition, we showed that the rate-matching method implicitly perturbs the LR-ODEs. Our analysis was then extended to stochastic scenarios. In particular, we proposed a method with both constant and varying step-sizes which performed comparable and sometimes better than state of the art.\par
-Nesterov's oracle complexity lower bound on gradient norm minimization is \(\mathcal O({k^{-4}})\). It remains an open question to see if NAG can achieve this rate of convergence for gradient norm minimization. In this work we noticed that HR-ODEs follow the same external force structure. 
+In this work, we considered unconstrained smooth convex minimization problem in the Euclidean space. Through a variational analysis on HR-ODEs, better convergence rate for the gradient norm minimization of the NAG method was achieved. In addition, we showed that the rate-matching method implicitly perturbs the LR-ODEs. Our analysis was then extended to stochastic scenarios. In particular, we proposed a method with both constant and varying step-sizes which performed comparable and sometimes better than state of the art.\par
+Nesterov's oracle complexity lower bound on gradient norm minimization is \(\mathcal O({k^{-4}})\). It remains an open question to see if the NAG method can achieve this rate of convergence for gradient norm minimization. In this work we noticed that HR-ODEs follow the same external force structure. 
 Triple Momentum (TM) method is the fastest known globally convergenct method for smooth strongly convex functions. However, the HR-ODE associated with the TM method cannot achieve the similar convergence rate as the TM method. One could use the external force structure proposed here to find a better HR-ODE for the TM algorithm. 
 In this work, we blended our noisy stochastic scheme with other known stochastic methods (e.g. SGD and SVRG). This technique could accelerate those methods. As a future work, one can apply the same technique to other practical methods like ADAM, RMSprop, etc, and study the behaviour of the final algorithm.
 
@@ -596,7 +567,7 @@ Using (\ref{HR_general_der_format_laborde}) in (\ref{prf_thm1_eqn1}) we have
      &+\dot \beta_t e^{\beta_t}(f(X_t)-f(x^*))+e^{\beta_t}\dot X_t\nabla f(X_t)\nonumber\\
      &= -e^{\alpha_t+\beta_t}\langle\nabla f(X_t),X_t-x^*\rangle -e^{\beta_t}\langle \nabla f(X_t),\dot X_t\rangle -\sqrt{s}e^{\beta_t}\|\nabla f(X_t)\|^2\nonumber\\
      &+\dot \beta_te^{\beta_t}(f(X_t)-f(x^*))+e^{\beta_t}\langle \nabla f(X_t),\dot X_t \rangle\nonumber\\
-     & \overset{\text{(convexity)}}{\leq} -e^{\alpha_t+\beta_t}(f(X_t)-f(x^*))+\dot \beta_te^{\beta_t}(f(X_t)-f(x^*))\nonumber\\
+     & \overset{\text{(\ref{convexity}})}{\leq} -e^{\alpha_t+\beta_t}(f(X_t)-f(x^*))+\dot \beta_te^{\beta_t}(f(X_t)-f(x^*))\nonumber\\
      & = -e^{\beta_t}\left[(e^{\alpha_t}-\dot \beta_t)(f(X_t)-f(x^*))\right].\nonumber
 \end{align}
 Utilizing the ideal scaling condition $\dot \beta_t\leq e^{\alpha_t}$ we have
@@ -630,7 +601,7 @@ Using (\ref{HR_general_der_format_Shi}) in (\ref{prf_thm3_eqn1}) we have
      &-\sqrt{s}\left(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t \right)\|\nabla f(X_t)\|^2\nonumber\\
      &+(\dot \beta_te^{\beta_t}-\sqrt{s}(2\dot \alpha_t)e^{-2\alpha_t}\dot \beta_t +\sqrt{s}e^{-2\alpha_t}\Ddot{\beta_t})(f(X_t)-f(x^*))\nonumber\\
     &+(e^{\beta_t}+\sqrt{s}e^{-2\alpha_t}\dot \beta_t)\langle\nabla f(X_t),\dot X_t\rangle,\nonumber\\
-     & \overset{\text{(convexity)}}{\leq} -\left(e^{\alpha_t+\beta_t}+\sqrt{s}e^{-\alpha_t}\dot \beta_t \right)(f(X_t)-f(x^*))\nonumber\\
+     & \overset{\text{(\ref{convexity}})}{\leq} -\left(e^{\alpha_t+\beta_t}+\sqrt{s}e^{-\alpha_t}\dot \beta_t \right)(f(X_t)-f(x^*))\nonumber\\
      &+(\dot \beta_te^{\beta_t}-\sqrt{s}(2\dot \alpha_t)e^{-2\alpha_t}\dot \beta_t +\sqrt{s}e^{-2\alpha_t}\Ddot{\beta_t})(f(X_t)-f(x^*)),\nonumber\\
      & = -\left[e^{\beta_t}(e^{\alpha_t}-\dot \beta_t)+\sqrt{s}e^{-\alpha_t}(\dot \beta_t+2\dot \alpha_t e^{-\alpha_t}\dot \beta_t-e^{-\alpha_t}\Ddot{\beta}_t)\right](f(X_t)-f(x^*)).\nonumber
 \end{align}
@@ -746,32 +717,32 @@ since $x_0=v_0$. This completes the proof.
 \subsection{Proof of Proposition \ref{prop1}}\label{proof_prop1}
     From the update rule (\ref{rate_match_2}) we have
     \begin{align}\label{prop1_eqn1}
-        z_k = x_{k+1}+\frac{k}{2}(x_{k+1}-y_k)=x_{k+1}+\frac{k}{2}(x_{k+1}-x_k+s \nabla f(x_k)).
+        z_k = x_{k+1}+\frac{k}{2}(x_{k+1}-y_k)=x_{k+1}+\frac{k}{2}(x_{k+1}-x_k+\epsilon \nabla f(x_k)).
     \end{align}
     Replacing (\ref{prop1_eqn1}) in the update rule of $z_k$ in (\ref{rate_match_2}), we get
     \begin{align}\label{prop1_eqn2}
-        x_{k+1}-x_k+\frac{k}{2}(x_{k+1}-x_k+s\nabla f(x_k))-\frac{k-1}{2}(x_k-x_{k-1}+s \nabla f(x_{k-1}))=-\frac{sk}{2}\nabla f(y_k).
+        x_{k+1}-x_k+\frac{k}{2}(x_{k+1}-x_k+\epsilon\nabla f(x_k))-\frac{k-1}{2}(x_k-x_{k-1}+\epsilon \nabla f(x_{k-1}))=-\frac{sk}{2}\nabla f(y_k).
     \end{align}
     By rearranging we have
       \begin{align}\label{prop1_eqn3}
-        x_{k+1}-x_k&+\frac{1}{2}(x_{k}-x_{k-1})+\frac{s}{2}\nabla f(x_{k-1})+\frac{k}{2}(x_{k+1}+x_{k-1}-2x_k)\nonumber\\
-        &+\frac{ks}{2}(\nabla f(x_{k}- \nabla f(x_{k-1}))=-\frac{s k}{2}\nabla f(y_k),\nonumber\\
-        \rightarrow \frac{2}{k\sqrt{s}}(\frac{x_{k+1}-x_k}{\sqrt{s}})&+\frac{1}{k\sqrt{s}}(\frac{x_k-x_{k-1}}{\sqrt{s}}) +\frac{1}{k}\nabla f(x_{k-1}) \nonumber\\
-        & +\frac{x_{k+1}-2x_k+x_{k-1}}{s}+\nabla f(x_k)-\nabla f(x_{k-1})=-\nabla f(y_k).
+        x_{k+1}-x_k&+\frac{1}{2}(x_{k}-x_{k-1})+\frac{\epsilon}{2}\nabla f(x_{k-1})+\frac{k}{2}(x_{k+1}+x_{k+1}-2x_k)\nonumber\\
+        &+\frac{k\epsilon}{2}(\nabla f(x_{k}- \nabla f(x_{k-1}))=-\frac{\epsilon k}{2}\nabla f(y_k),\nonumber\\
+        \rightarrow \color{blue}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})\color{black}&+\color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})\color{black}+\color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_k-x_{k-1}}{\sqrt{\epsilon}})\color{black} +\frac{1}{k}\nabla f(x_{k-1}) \nonumber\\
+        & +\frac{x_{k+2}-2x_k+x_{k-1}}{\epsilon}+\nabla f(x_k)-\nabla f(x_{k-1})=-\nabla f(y_k).
     \end{align}
     Using approximations
     \begin{align}\label{prop1_eqn4}
-       \frac{2}{k\sqrt{s}}(\frac{x_{k+1}-x_k}{\sqrt{s}})+\frac{1}{k\sqrt{s}}(\frac{x_k-x_{k-1}}{\sqrt{s}})&\approx \frac{1}{t_k}(2 \dot X(t_k))\\
-        \frac{x_{k+1}-2x_k+x_{k-1}}{s}&\approx \Ddot{X}(t_k)\\
-        \nabla f(x_k)-\nabla f(x_{k-1})&\approx \sqrt{s}\nabla^2 f(X(t_k))\dot X(t_k)\\
-        \nabla f(y_k)=\nabla f(x_k-s\nabla f(x_k))&\approx \nabla f(x_k)-s\nabla^2 f(x_k)\nabla f(x_k)\approx \nabla f(x_k)\\
+        \color{blue}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})&\approx \frac{\dot X(t_k)}{t_k},\\
+        \color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_{k+1}-x_k}{\sqrt{\epsilon}})\color{black}+\color{red}\frac{1}{k\sqrt{\epsilon}}(\frac{x_k-x_{k-1}}{\sqrt{\epsilon}})&\approx \frac{1}{t_k}(\dot X(t_k)+\frac{\sqrt{\epsilon}}{2}\Ddot{X}(t_k)+ \dot X(t_k)-\frac{\sqrt{\epsilon}}{2}\Ddot{X}(t_k))\nonumber\\
+        &=\frac{1}{t_k}(2 \dot X(t_k))\\
+        \frac{x_{k+2}-2x_k+x_{k-1}}{\epsilon}&\approx \Ddot{X}(t_k)\\
+        \nabla f(x_k)-\nabla f(x_{k-1})&\approx \sqrt{\epsilon}\nabla^2 f(X(t_k))\dot X(t_k)\\
         X(t)\approx X(t_k)\qquad \dot X(t)&\approx\dot X(t_k)\qquad \Ddot X(t)\approx\Ddot X(t_k) \qquad Y(t_k)\approx Y(t)
     \end{align}
-    and $t_k=k\sqrt{s}$ in (\ref{prop1_eqn3}), we get
+    and $t_k=k\sqrt{\epsilon}$ in (\ref{prop1_eqn3}), we get
 \begin{align}\label{prop1_eqn5}
-    \Ddot{X}(t)+(\frac{3}{t}+\sqrt{s}\nabla f(X(t)))\dot X(t)+(1+\frac{\sqrt{s}}{t})\nabla f(X(t))=0.
+    \Ddot{X}(t)+(\frac{3}{t}+\sqrt{\epsilon}\nabla f(X(t)))\dot X(t)+\frac{\sqrt{\epsilon}}{t}\nabla f(X(y))=-\nabla f(Y(t)).
 \end{align}
-
 This, concludes the proof.
 \subsection{Proof of Theorem \ref{Theorem5}}\label{thm6_proof}
 Take the Lyapunov function
@@ -899,6 +870,8 @@ Using(\ref{Lyap_stc_11},\ref{Lyap_stc_12},\ref{Lyap_stc_13},\ref{Lyap_stc_14},\r
 with $\mathbb E[\varepsilon (0)]=\frac{1}{2}\|v_0-x^*\|^2$. 
 
 
+\hcm{for stochastic gradient norm minimization show that the stochastic extention of other guys (chen and shi) proof may not be good.}
+
 b) On the transition from (\ref{Lyap_stc_6}) to (\ref{Lyap_stc_8}), one can write
 \begin{align}\label{stc_GNM1}
     \varepsilon(k+1)-\varepsilon(k)&\leq \frac{s_k(t_k+2s_k)}{2}g_k-\frac{1}{2}\left( \frac{t_k^2}{4}+\frac{s_kt_k}{2} \right)(\frac{1}{L}-\frac{s_k}{\sqrt{L}})\|\nabla f(x_{k+1})-\nabla f(x_k)\|^2\nonumber\\
@@ -918,9 +891,9 @@ and therefore,
     \min_{0\leq i\leq k-1}\|\nabla f(x_i)\|^2 \leq \frac{\varepsilon(0)+ \sum_{i=0}^{k-1} \frac{s_i(t_i+2s_i)}{2}g_i}{\frac{1}{2\sqrt{L}}\sum_{i=0}^{k-1}\left(\frac{t_i^2}{4}+\frac{s_it_i}{2}\right)s_i},
 \end{align}
 Evaluating the expectation of both hand sides gives
-\begin{align}
+\begin{align}\label{stc_GNM4}
     \mathbb E\left[\min_{0\leq i\leq k-1}\|\nabla f(x_i)\|^2 \right]&\leq \frac{\mathbb E\left[\varepsilon(0)\right]+ \sum_{i=0}^{k-1} \frac{s_i(t_i+2s_i)}{2}\mathbb E\left[g_i\right]}{\frac{1}{2\sqrt{L}}\sum_{i=0}^{k-1}\left(\frac{t_i^2}{4}+\frac{s_it_i}{2}\right)s_i},\nonumber\\
-    &= \frac{\mathbb E\left[\varepsilon(0)\right]+ \sum_{i=0}^{k-1} \frac{s_i^2(t_i+2s_i)^2}{8}\sigma^2}{\frac{1}{2\sqrt{L}}\sum_{i=0}^{k-1}\left(\frac{t_i^2}{4}+\frac{s_it_i}{2}\right)s_i},\nonumber
+    &= \frac{\mathbb E\left[\varepsilon(0)\right]+ \sum_{i=0}^{k-1} \frac{s_i^2(t_i+2s_i)^2}{8}\sigma^2}{\frac{1}{2\sqrt{L}}\sum_{i=0}^{k-1}\left(\frac{t_i^2}{4}+\frac{s_it_i}{2}\right)s_i},
 \end{align}
 and the last equality is due to $\mathbb E[g_i]= \frac{s_i(t_i+2s_i)}{4}\sigma^2$. Next, we will bound the numerator from above and lower bound the denominator as 
 \begin{align}\label{stc_GNM5}
@@ -976,13 +949,13 @@ Take the Lyapunov function
         \end{array}\right.
     \end{align}
     Using (\ref{Lyap2_stc_2}) in (\ref{Lyap2_stc_1}) we have
-    \begin{align}\label{Lyap2_stc_3}
+    \begin{align}\label{Lyap_stc_3}
         \varepsilon(k+1)-\varepsilon(k)&=(\frac{t_{k+1}^2-t_k^2}{4}+\frac{\beta(t_{k+1}-t_k)}{2\sqrt{L}})(f(x_{k+1})-f(x^*))\nonumber\\
         &+(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})(f(x_{k+1})-f(x_k))+\frac{1}{8}((t_k+\frac{2\beta}{\sqrt{L}})s_k)^2\|\nabla f(x_{k+1})+e_{k+1}\|^2\nonumber\\
         &-\frac{1}{2}\langle (t_k+\frac{2\beta}{\sqrt{L}})s_k (\nabla f(x_{k+1})+e_{k+1}), \frac{t_k}{2s_k}(x_{k+1}-x_k)+x_{k+1}-x^*\nonumber\\
         &+\frac{t_k\beta}{2\sqrt{L}}(\nabla f(x_k)+e_k)\rangle.
     \end{align}
-    Now, using (\ref{smooth_convex}) in (\ref{Lyap2_stc_3}) we get
+    Now, using (\ref{smooth_convex}) in (\ref{Lyap_stc_3}) we get
     \begin{align}\label{Lyap2_stc_4}
          \varepsilon(k+1)-\varepsilon(k)&\leq (\frac{t_{k+1}^2-t_k^2}{4}+\frac{\beta(t_{k+1}-t_k)}{2\sqrt{L}})(\langle \nabla f(x_{k+1}),x_{k+1}-x^* \rangle-\frac{1}{2L}\|\nabla f(x_{k+1})\|^2)\nonumber\\
          & +(\frac{t_{k}^2}{4}+\frac{\beta t_{k}}{2\sqrt{L}})(\langle \nabla f(x_{k+1}),x_{k+1}-x_k \rangle-\frac{1}{2L}\|\nabla f(x_{k+1})-\nabla f(x_k)\|^2)\nonumber\\
