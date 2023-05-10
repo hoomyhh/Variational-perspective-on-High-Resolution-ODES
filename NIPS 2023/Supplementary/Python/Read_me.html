@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2299.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px Menlo; color: #000000}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px Menlo; color: #000000; min-height: 13.0px}
+    span.s1 {font-variant-ligatures: no-common-ligatures}
+  </style>
+</head>
+<body>
+<p class="p1">Instructions:</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">run_main.py --optimizer NNAG<span class="Apple-converted-space">  </span>--lr 0.05 --a 150</span></p>
+<p class="p3"><span class="s1">run_main.py --optimizer SGD<span class="Apple-converted-space">  </span>--lr 0.01</span></p>
+<p class="p3"><span class="s1">run_main.py --optimizer SVRG<span class="Apple-converted-space">  </span>--lr 0.01</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1">After the training we extract the data for plotting in Latex. The default order of the final data file is SGD , SVRG ,<span class="Apple-converted-space">  </span>NNAG , Epoch</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1">Thus, path1 should refer to the path of SGD result<span class="Apple-converted-space"> </span></span></p>
+<p class="p3"><span class="s1">path2 should refer to the path of SVRG result<span class="Apple-converted-space"> </span></span></p>
+<p class="p3"><span class="s1">path3 should refer to the path of NNAG result<span class="Apple-converted-space"> </span></span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1">And epoch is used for x axis visualisation.</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1">The objective of the plot can be specified as<span class="Apple-converted-space"> </span></span></p>
+<p class="p3"><span class="s1">“train_error”</span></p>
+<p class="p3"><span class="s1">“train_acc”</span></p>
+<p class="p3"><span class="s1">“val_error”</span></p>
+<p class="p3"><span class="s1">“val_acc”</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1">For example you can run</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space"> </span>load_data.py --path1 “path1” --path2<span class="Apple-converted-space">  </span>“path2” --path3 “path3” --obj "val_acc"</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1">Then the data file in the output can be used for visualisation in Latex.</span></p>
+</body>
+</html>
