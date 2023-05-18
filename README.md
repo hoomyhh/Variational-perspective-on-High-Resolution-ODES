@@ -4,7 +4,7 @@ In this project we provide a variational perspective on **high-resolution ODEs**
 
 ## Code
 ```
-git clone https://github.com/yueqiw/OptML-SVRG-NonConvex.git
+git clone https://github.com/hoomyhh/Variational-perspective-on-High-Resolution-ODES.git
 # python 3.11.3
 ```
 ### Training and Implementations
