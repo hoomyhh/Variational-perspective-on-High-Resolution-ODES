@@ -10,23 +10,24 @@ git clone https://github.com/yueqiw/OptML-SVRG-NonConvex.git
 ### Training and Implementations
 Here we train a simple CNN on CIFAR10 dataset. The aim is mainly the training error and behaviour of the **SGD,NNAG,SVRG, and NNAG+SVRG** algorithms.
 
-
+```
 python run_main.py --optimizer NNAG  --lr 0.05 --a 150
 python run_main.py --optimizer SGD  --lr 0.01
 python run_main.py --optimizer SVRG  --lr 0.01
 python run_main.py --optimizer NNAG_SVRG  --lr 0.001 --a 30
-
+```
 ### Output process
 After running the algorithms and training, the .npz outputs are located in the /outputs directory. In case Monte_Carlo simulations were conducted **(for this you have to manually train as much as you need)** By manually, copy pasting the .npz files in separate folders for each algorithm (e.g. "path1","path2","path3", and "path4"), you can get the data to plot in Latex through this line of code
 
 python load_data_all.py --path1 “path1” --path2  “path2” --path3 “path3” --"path4" --obj "objective" --outputfile "output_file_name"
 
 The objective of the plot can be specified as
+```
 “train_error”
 “train_acc”
 “val_error”
 “val_acc”
-
+```
 and the "output_file_name" is the optional name of the output file.
 
 After the training we extract the data for plotting in Latex. The
@@ -34,6 +35,7 @@ default order of the final data file is SGD , SVRG ,  NNAG , NNAG+SVRG, Epoch , 
 
 where the lower and upper refer to the lower and upper confidence intervals corresponding to each algorithm.
 ### Plot in Latex
+```
 \begin{figure}[!ht]
     \centering
     \begin{tikzpicture}
@@ -126,3 +128,4 @@ where the lower and upper refer to the lower and upper confidence intervals corr
     \end{tabular}};
 
     \end{tikzpicture}
+```
