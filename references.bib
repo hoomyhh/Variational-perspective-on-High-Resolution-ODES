@@ -184,6 +184,12 @@ eprint = {
   journal={arXiv preprint arXiv:2209.08862},
   year={2022}
 }
+@inproceedings{Zhu2014LinearCA,
+  title={Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent},
+  author={Zeyuan Allen Zhu and Lorenzo Orecchia},
+  booktitle={Information Technology Convergence and Services},
+  year={2014}
+}
 @ARTICLE{7967721,
   author={Van Scoy, Bryan and Freeman, Randy A. and Lynch, Kevin M.},
   journal={IEEE Control Systems Letters}, 
@@ -741,4 +747,10 @@ keywords = {large-scale algorithms, sparse principal component analysis, Riemann
   pdf = 	 {http://proceedings.mlr.press/v97/allen-zhu19a/allen-zhu19a.pdf},
   url = 	 {http://proceedings.mlr.press/v97/allen-zhu19a.html},
   abstract = 	 {Deep neural networks (DNNs) have demonstrated dominating performance in many fields; since AlexNet, networks used in practice are going wider and deeper. On the theoretical side, a long line of works have been focusing on why we can train neural networks when there is only one hidden layer. The theory of multi-layer networks remains unsettled. In this work, we prove simple algorithms such as stochastic gradient descent (SGD) can find Global Minima on the training objective of DNNs in Polynomial Time. We only make two assumptions: the inputs do not degenerate and the network is over-parameterized. The latter means the number of hidden neurons is sufficiently large: polynomial in L, the number of DNN layers and in n, the number of training samples. As concrete examples, starting from randomly initialized weights, we show that SGD attains 100% training accuracy in classification tasks, or minimizes regression loss in linear convergence speed eps   e^{-T}, with running time polynomial in n and L. Our theory applies to the widely-used but non-smooth ReLU activation, and to any smooth and possibly non-convex loss functions. In terms of network architectures, our theory at least applies to fully-connected neural networks, convolutional neural networks (CNN), and residual neural networks (ResNet).}
+}
+@book{krizhevsky2009learning,
+  title={Learning multiple layers of features from tiny images},
+  author={Krizhevsky, Alex and Hinton, Geoffrey and others},
+  year={2009},
+  publisher={Toronto, ON, Canada}
 }
