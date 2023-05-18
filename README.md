@@ -18,9 +18,9 @@ python run_main.py --optimizer NNAG_SVRG  --lr 0.001 --a 30
 ```
 ### Output process
 After running the algorithms and training, the .npz outputs are located in the /outputs directory. In case Monte_Carlo simulations were conducted **(for this you have to manually train as much as you need)** By manually, copy pasting the .npz files in separate folders for each algorithm (e.g. "path1","path2","path3", and "path4"), you can get the data to plot in Latex through this line of code
-
+```
 python load_data_all.py --path1 “path1” --path2  “path2” --path3 “path3” --"path4" --obj "objective" --outputfile "output_file_name"
-
+```
 The objective of the plot can be specified as
 ```
 “train_error”
